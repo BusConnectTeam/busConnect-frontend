@@ -1,36 +1,137 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# BusConnect Frontend
 
-## Getting Started
+> Plataforma de reservas de autocares para Catalunya
 
-First, run the development server:
+## 📋 Descripción
+
+BusConnect es una plataforma moderna y accesible tipo Booking.com especializada en reservas de autobuses y autocares. Diseñada para un público amplio (18-70 años), ofrece una experiencia intuitiva tanto para usuarios que buscan reservar como para empresas de transporte que desean ofrecer sus servicios.
+
+## 🎯 Características principales
+
+- **Búsqueda intuitiva**: Sistema de búsqueda por origen, destino, fecha y número de pasajeros
+- **Empresas verificadas**: Catálogo de empresas de transporte verificadas con valoraciones y reseñas
+- **Diseño accesible**: Interfaz clara y profesional optimizada para todas las edades
+- **Modo oscuro**: Soporte automático para tema claro/oscuro
+- **Responsive**: Diseño adaptable a todos los dispositivos
+- **Asistente IA**: Chat flotante con asistente virtual para ayudar en la búsqueda
+- **Multiidioma**: Preparado para español, catalán e inglés
+
+## 🛠️ Stack Tecnológico
+
+- **Framework**: Next.js 14 (App Router)
+- **Lenguaje**: TypeScript
+- **Estilos**: Tailwind CSS
+- **Animaciones**: Framer Motion
+- **Formularios**: React Hook Form + Zod
+- **Estado**: Zustand
+- **Data Fetching**: TanStack Query
+- **Iconos**: Lucide React
+
+## 🚀 Instalación
 
 ```bash
+# Clonar el repositorio
+git clone https://github.com/BusConnectTeam/busConnect-frontend.git
+
+# Entrar al directorio
+cd busConnect-frontend
+
+# Instalar dependencias
+npm install
+
+# Ejecutar en modo desarrollo
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+La aplicación estará disponible en `http://localhost:3000`
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📁 Estructura del proyecto
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+busconnect-frontend/
+├── src/
+│   ├── app/              # Rutas y páginas (App Router)
+│   │   ├── layout.tsx    # Layout principal
+│   │   ├── page.tsx      # Página de inicio
+│   │   └── globals.css   # Estilos globales
+│   ├── components/       # Componentes reutilizables
+│   │   ├── Header.tsx
+│   │   ├── Footer.tsx
+│   │   ├── Hero.tsx
+│   │   ├── VerifiedCompanies.tsx
+│   │   ├── Benefits.tsx
+│   │   ├── CompanyCTA.tsx
+│   │   └── AIChat.tsx
+│   ├── lib/              # Utilidades y datos
+│   │   ├── utils.ts
+│   │   └── mock-data.ts
+│   └── types/            # Tipos TypeScript
+│       └── index.ts
+├── public/               # Archivos estáticos
+├── tailwind.config.ts    # Configuración de Tailwind
+├── tsconfig.json         # Configuración de TypeScript
+└── package.json
+```
 
-## Learn More
+## 🎨 Paleta de colores
 
-To learn more about Next.js, take a look at the following resources:
+- **Primary**: `#2563EB` (Azul confianza)
+- **Accent Yellow**: `#FBBF24` (Acentos cálidos)
+- **Accent Green**: `#10B981` (Confirmaciones)
+- **Neutral**: Escala de grises para textos y fondos
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🧩 Componentes principales
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Hero
+Sección principal con buscador central que permite búsqueda por origen, destino, fecha y número de pasajeros.
 
-## Deploy on Vercel
+### VerifiedCompanies
+Grid de empresas verificadas con logo, valoración y descripción.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Benefits
+Sección que destaca las ventajas de usar BusConnect (seguridad, empresas verificadas, atención 24/7, etc.).
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### CompanyCTA
+Call-to-action para empresas de transporte que deseen registrarse en la plataforma.
+
+### AIChat
+Chat flotante con asistente virtual para ayudar a los usuarios en su búsqueda.
+
+## 📱 Próximas funcionalidades
+
+- [ ] Página de resultados de búsqueda con filtros
+- [ ] Página de detalle de empresa
+- [ ] Flujo completo de reserva (wizard)
+- [ ] Sistema de autenticación (Google OAuth + Email)
+- [ ] Panel de usuario con historial de reservas
+- [ ] Panel de empresa para gestión de flota
+- [ ] Blog con artículos sobre movilidad
+- [ ] Sistema de pagos (Stripe/Redsys)
+- [ ] Integración con backend (API REST)
+
+## 🤝 Equipo
+
+- **Irina** - Full Stack Developer (Lead Frontend)
+- **2 Desarrolladores Junior** - Backend
+- **1 Desarrollador Mid-Senior** - Backend
+
+## 📝 Scripts disponibles
+
+```bash
+npm run dev      # Iniciar en modo desarrollo
+npm run build    # Construir para producción
+npm run start    # Iniciar servidor de producción
+npm run lint     # Ejecutar linter
+```
+
+## 🌐 Despliegue
+
+El proyecto está configurado para desplegarse en **Railway**. El despliegue en producción se activará automáticamente al hacer push a la rama `main`.
+
+## 📄 Licencia
+
+Este proyecto es privado y pertenece a BusConnectTeam.
+
+---
+
+Desarrollado con ❤️ por el equipo de BusConnect

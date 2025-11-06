@@ -1,26 +1,199 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@layer base {
+  html {
+    @apply scroll-smooth;
+  }
+  
+  body {
+    @apply bg-neutral-50 dark:bg-neutral-900 text-neutral-800 dark:text-neutral-100;
+    font-feature-settings: 'liga', 'kern';
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  h1, h2, h3, h4, h5, h6 {
+    @apply text-neutral-900 dark:text-white;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  h1 { @apply text-4xl md:text-5xl lg:text-6xl; }
+  h2 { @apply text-3xl md:text-4xl; }
+  h3 { @apply text-2xl md:text-3xl; }
+  
+  p {
+    @apply leading-relaxed text-neutral-700 dark:text-neutral-300;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+  /* Botones principales - Azul petróleo */
+  .btn-primary {
+    @apply bg-primary text-white font-medium px-8 py-3.5 rounded-lg;
+    @apply transition-all duration-300 ease-out;
+    @apply shadow-sm hover:shadow-md;
+    @apply hover:bg-primary-700 hover:-translate-y-0.5;
+    @apply active:translate-y-0 active:shadow-sm;
+    @apply disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0;
+    @apply focus:outline-none focus:ring-2 focus:ring-primary/30 focus:ring-offset-2;
+  }
+  
+  .btn-secondary {
+    @apply bg-white dark:bg-neutral-800 text-primary border border-neutral-300 dark:border-neutral-600;
+    @apply font-medium px-8 py-3.5 rounded-lg;
+    @apply transition-all duration-300 ease-out;
+    @apply hover:bg-primary-50 dark:hover:bg-primary-950/30 hover:border-primary;
+    @apply hover:-translate-y-0.5 hover:shadow-sm;
+    @apply active:translate-y-0;
+    @apply focus:outline-none focus:ring-2 focus:ring-primary/30 focus:ring-offset-2;
+  }
+
+  .btn-ghost {
+    @apply text-neutral-700 dark:text-neutral-300 font-medium px-6 py-2.5 rounded-lg;
+    @apply transition-colors duration-200;
+    @apply hover:bg-primary-50 dark:hover:bg-primary-950/20 hover:text-primary;
+    @apply focus:outline-none focus:ring-2 focus:ring-primary/20;
+  }
+  
+  /* Campos de entrada elegantes */
+  .input-field {
+    @apply w-full px-4 py-3.5 rounded-lg;
+    @apply bg-white dark:bg-neutral-800;
+    @apply border border-neutral-300 dark:border-neutral-600;
+    @apply text-neutral-900 dark:text-neutral-100;
+    @apply placeholder:text-neutral-400 dark:placeholder:text-neutral-500;
+    @apply transition-all duration-200;
+    @apply focus:border-primary focus:ring-2 focus:ring-primary/20;
+    @apply focus:outline-none;
+    @apply disabled:bg-neutral-100 disabled:cursor-not-allowed;
+  }
+
+  .input-field:hover:not(:disabled) {
+    @apply border-neutral-400 dark:border-neutral-500;
+  }
+  
+  /* Tarjetas con diseño sofisticado */
+  .card {
+    @apply bg-white dark:bg-neutral-800;
+    @apply rounded-xl border border-neutral-200 dark:border-neutral-700;
+    @apply p-6 md:p-8;
+    @apply transition-all duration-300 ease-out;
+    @apply hover:shadow-lg hover:border-primary-200 dark:hover:border-primary-800;
+    @apply hover:-translate-y-1;
+  }
+
+  .card-subtle {
+    @apply bg-white dark:bg-neutral-800;
+    @apply rounded-lg border border-neutral-200 dark:border-neutral-700;
+    @apply p-6;
+    @apply transition-shadow duration-200;
+    @apply hover:shadow-md;
+  }
+  
+  /* Links elegantes */
+  .link {
+    @apply text-primary font-medium;
+    @apply transition-all duration-200;
+    @apply hover:text-primary-700 hover:underline;
+    @apply focus:outline-none focus:ring-2 focus:ring-primary/30 focus:rounded;
+  }
+
+  .link-subtle {
+    @apply text-neutral-600 dark:text-neutral-400;
+    @apply transition-colors duration-200;
+    @apply hover:text-primary;
+  }
+
+  /* Badges */
+  .badge {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-sm font-medium;
+    @apply bg-primary-50 dark:bg-primary-950/50 text-primary-700 dark:text-primary-300;
+  }
+
+  .badge-success {
+    @apply bg-green-50 dark:bg-green-950/50 text-green-700 dark:text-green-300;
+  }
+
+  .badge-warning {
+    @apply bg-orange-50 dark:bg-orange-950/50 text-orange-700 dark:text-orange-300;
+  }
+
+  /* Secciones */
+  .section {
+    @apply py-16 md:py-20 lg:py-24;
+  }
+
+  .section-title {
+    @apply text-3xl md:text-4xl font-semibold text-center mb-4;
+    @apply text-neutral-900 dark:text-white;
+  }
+
+  .section-subtitle {
+    @apply text-lg md:text-xl text-center text-neutral-600 dark:text-neutral-400;
+    @apply max-w-2xl mx-auto mb-12;
+  }
+
+  /* Contenedor principal */
+  .container-custom {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Separador elegante */
+  .divider {
+    @apply border-t border-neutral-200 dark:border-neutral-700;
+  }
+
+  /* Focus visible para accesibilidad */
+  .focus-visible {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2;
+  }
+}
+
+/* Utilidades personalizadas */
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .transition-base {
+    @apply transition-all duration-200 ease-out;
+  }
+
+  .transition-smooth {
+    @apply transition-all duration-300 ease-out;
+  }
+
+  /* Animaciones suaves de entrada */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.6s ease-out;
+  }
+
+  /* Glassmorphism sutil */
+  .glass {
+    @apply bg-white/80 dark:bg-neutral-900/80 backdrop-blur-md;
+    @apply border border-white/20 dark:border-neutral-700/50;
+  }
+
+  /* Gradiente con azul petróleo */
+  .gradient-primary {
+    background: linear-gradient(135deg, #155e75 0%, #0e7490 100%);
+  }
+
+  .gradient-primary-subtle {
+    background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%);
+  }
 }
