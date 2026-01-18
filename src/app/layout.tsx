@@ -1,6 +1,7 @@
 import AIChat from '@/components/AIChat';
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
+import { Providers } from '@/lib/providers';
 import type { Metadata } from 'next';
 import { Playfair_Display } from 'next/font/google';
 import './globals.css';
@@ -21,12 +22,14 @@ export default function RootLayout({
   return (
     <html lang="es" suppressHydrationWarning>
       <body className={playfair.className}>
-        <Header />
-        <main className="min-h-screen">
-          {children}
-        </main>
-        <Footer />
-        <AIChat />
+        <Providers>
+          <Header />
+          <main className="min-h-screen">
+            {children}
+          </main>
+          <Footer />
+          <AIChat />
+        </Providers>
       </body>
     </html>
   );

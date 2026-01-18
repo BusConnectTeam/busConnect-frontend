@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: busconnect-frontend
+    runtime: node
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NEXT_PUBLIC_API_URL
+        sync: false
+    autoDeploy: true
