@@ -2,18 +2,42 @@
 @tailwind components;
 @tailwind utilities;
 
+/* =====================================================
+   BASE LAYER - ACCESIBILIDAD (WCAG 2.1 AA)
+   ===================================================== */
 @layer base {
   html {
     @apply scroll-smooth;
+    /* Respeta preferencias de usuario para animaciones reducidas */
+    scroll-behavior: smooth;
   }
-  
+
+  /* Preferencia de movimiento reducido */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
   body {
     @apply bg-neutral-50 dark:bg-neutral-900 text-neutral-800 dark:text-neutral-100;
     font-feature-settings: 'liga', 'kern';
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    /* Tamaño base en rem para escalabilidad */
+    font-size: 1rem;
+    line-height: 1.5;
   }
 
+  /* Headings con contraste WCAG AA y tamaños escalables */
   h1, h2, h3, h4, h5, h6 {
     @apply text-neutral-900 dark:text-white;
     font-weight: 600;
@@ -23,42 +47,91 @@
   h1 { @apply text-4xl md:text-5xl lg:text-6xl; }
   h2 { @apply text-3xl md:text-4xl; }
   h3 { @apply text-2xl md:text-3xl; }
-  
+  h4 { @apply text-xl md:text-2xl; }
+  h5 { @apply text-lg md:text-xl; }
+  h6 { @apply text-base md:text-lg; }
+
   p {
     @apply leading-relaxed text-neutral-700 dark:text-neutral-300;
   }
+
+  /* Focus visible global para navegación por teclado */
+  :focus-visible {
+    @apply outline-none ring-2 ring-coral ring-offset-2 ring-offset-white dark:ring-offset-neutral-900;
+  }
+
+  /* Focus específico dentro de fondos oscuros */
+  .dark-bg :focus-visible,
+  [data-theme="dark"] :focus-visible {
+    @apply ring-offset-neutral-900;
+  }
+
+  /* Selección de texto accesible */
+  ::selection {
+    @apply bg-petroleo text-white;
+  }
+
+  /* Inputs nativos - previene zoom en iOS */
+  input, textarea, select, button {
+    font-size: 1rem;
+  }
+
+  /* Skip link accesibilidad */
+  .sr-only:focus {
+    @apply not-sr-only;
+  }
 }
 
+/* =====================================================
+   COMPONENTS LAYER
+   ===================================================== */
 @layer components {
-  /* Botones principales - Azul petróleo */
+  /* Botones principales - Color petroleo con coral CTA */
   .btn-primary {
-    @apply bg-primary text-white font-medium px-8 py-3.5 rounded-lg;
+    @apply bg-petroleo text-white font-medium px-8 py-3.5 rounded-lg;
     @apply transition-all duration-300 ease-out;
     @apply shadow-sm hover:shadow-md;
-    @apply hover:bg-primary-700 hover:-translate-y-0.5;
+    @apply hover:bg-petroleo-800 hover:-translate-y-0.5;
     @apply active:translate-y-0 active:shadow-sm;
     @apply disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0;
-    @apply focus:outline-none focus:ring-2 focus:ring-primary/30 focus:ring-offset-2;
+    /* Accesibilidad: focus visible */
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-petroleo/50 focus-visible:ring-offset-2;
+    /* Área mínima de click 44x44px */
+    @apply min-h-touch;
   }
-  
+
+  /* Botón CTA destacado con coral */
+  .btn-cta {
+    @apply bg-coral text-white font-semibold px-8 py-3.5 rounded-lg;
+    @apply transition-all duration-300 ease-out;
+    @apply shadow-lg shadow-coral/25 hover:shadow-xl hover:shadow-coral/30;
+    @apply hover:bg-coral-600 hover:-translate-y-0.5;
+    @apply active:translate-y-0;
+    @apply disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0;
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral/50 focus-visible:ring-offset-2;
+    @apply min-h-touch;
+  }
+
   .btn-secondary {
-    @apply bg-white dark:bg-neutral-800 text-primary border border-neutral-300 dark:border-neutral-600;
+    @apply bg-white dark:bg-neutral-800 text-petroleo border border-neutral-300 dark:border-neutral-600;
     @apply font-medium px-8 py-3.5 rounded-lg;
     @apply transition-all duration-300 ease-out;
-    @apply hover:bg-primary-50 dark:hover:bg-primary-950/30 hover:border-primary;
+    @apply hover:bg-petroleo-50 dark:hover:bg-petroleo-950/30 hover:border-petroleo;
     @apply hover:-translate-y-0.5 hover:shadow-sm;
     @apply active:translate-y-0;
-    @apply focus:outline-none focus:ring-2 focus:ring-primary/30 focus:ring-offset-2;
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-petroleo/50 focus-visible:ring-offset-2;
+    @apply min-h-touch;
   }
 
   .btn-ghost {
     @apply text-neutral-700 dark:text-neutral-300 font-medium px-6 py-2.5 rounded-lg;
     @apply transition-colors duration-200;
-    @apply hover:bg-primary-50 dark:hover:bg-primary-950/20 hover:text-primary;
-    @apply focus:outline-none focus:ring-2 focus:ring-primary/20;
+    @apply hover:bg-petroleo-50 dark:hover:bg-petroleo-950/20 hover:text-petroleo;
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-petroleo/30;
+    @apply min-h-touch;
   }
-  
-  /* Campos de entrada elegantes */
+
+  /* Campos de entrada accesibles */
   .input-field {
     @apply w-full px-4 py-3.5 rounded-lg;
     @apply bg-white dark:bg-neutral-800;
@@ -66,23 +139,54 @@
     @apply text-neutral-900 dark:text-neutral-100;
     @apply placeholder:text-neutral-400 dark:placeholder:text-neutral-500;
     @apply transition-all duration-200;
-    @apply focus:border-primary focus:ring-2 focus:ring-primary/20;
+    @apply focus:border-petroleo focus:ring-2 focus:ring-petroleo/20;
     @apply focus:outline-none;
     @apply disabled:bg-neutral-100 disabled:cursor-not-allowed;
+    /* Área mínima accesible */
+    @apply min-h-touch;
+    /* Tamaño de fuente para evitar zoom en iOS */
+    font-size: 1rem;
   }
 
   .input-field:hover:not(:disabled) {
     @apply border-neutral-400 dark:border-neutral-500;
   }
-  
-  /* Tarjetas con diseño sofisticado */
+
+  /* Input para formularios con fondo oscuro (glass morphism) */
+  .input-field-dark {
+    @apply w-full px-4 py-3.5 rounded-lg;
+    @apply bg-white/10 backdrop-blur-sm;
+    @apply border border-white/20;
+    @apply text-white placeholder:text-white/50;
+    @apply transition-all duration-200;
+    @apply hover:border-white/40;
+    @apply focus:border-coral focus:ring-2 focus:ring-coral/30;
+    @apply focus:outline-none;
+    @apply min-h-touch;
+    font-size: 1rem;
+  }
+
+  /* Estado de error en inputs */
+  .input-error {
+    @apply border-coral focus:border-coral focus:ring-coral/30;
+  }
+
+  /* Mensaje de error */
+  .error-message {
+    @apply text-sm text-coral-600 dark:text-coral-400 mt-1;
+    @apply flex items-center gap-1;
+  }
+
+  /* Tarjetas */
   .card {
     @apply bg-white dark:bg-neutral-800;
     @apply rounded-xl border border-neutral-200 dark:border-neutral-700;
     @apply p-6 md:p-8;
     @apply transition-all duration-300 ease-out;
-    @apply hover:shadow-lg hover:border-primary-200 dark:hover:border-primary-800;
+    @apply hover:shadow-lg hover:border-petroleo-200 dark:hover:border-petroleo-800;
     @apply hover:-translate-y-1;
+    /* Focus para navegación por teclado */
+    @apply focus-within:ring-2 focus-within:ring-petroleo/30;
   }
 
   .card-subtle {
@@ -92,25 +196,31 @@
     @apply transition-shadow duration-200;
     @apply hover:shadow-md;
   }
-  
-  /* Links elegantes */
+
+  /* Links */
   .link {
-    @apply text-primary font-medium;
+    @apply text-petroleo font-medium;
     @apply transition-all duration-200;
-    @apply hover:text-primary-700 hover:underline;
-    @apply focus:outline-none focus:ring-2 focus:ring-primary/30 focus:rounded;
+    @apply hover:text-petroleo-700 hover:underline;
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-petroleo/30 focus-visible:rounded;
   }
 
   .link-subtle {
     @apply text-neutral-600 dark:text-neutral-400;
     @apply transition-colors duration-200;
-    @apply hover:text-primary;
+    @apply hover:text-petroleo;
+  }
+
+  /* Links sobre fondo oscuro */
+  .link-light {
+    @apply text-white/90 hover:text-white;
+    @apply focus-visible:ring-white/50;
   }
 
   /* Badges */
   .badge {
     @apply inline-flex items-center px-3 py-1 rounded-full text-sm font-medium;
-    @apply bg-primary-50 dark:bg-primary-950/50 text-primary-700 dark:text-primary-300;
+    @apply bg-petroleo-50 dark:bg-petroleo-950/50 text-petroleo-700 dark:text-petroleo-300;
   }
 
   .badge-success {
@@ -119,6 +229,10 @@
 
   .badge-warning {
     @apply bg-orange-50 dark:bg-orange-950/50 text-orange-700 dark:text-orange-300;
+  }
+
+  .badge-coral {
+    @apply bg-coral-50 dark:bg-coral-950/50 text-coral-700 dark:text-coral-300;
   }
 
   /* Secciones */
@@ -141,18 +255,36 @@
     @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
   }
 
-  /* Separador elegante */
+  /* Separador */
   .divider {
     @apply border-t border-neutral-200 dark:border-neutral-700;
   }
 
-  /* Focus visible para accesibilidad */
-  .focus-visible {
-    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2;
+  /* Glass morphism container */
+  .glass-container {
+    @apply backdrop-blur-md bg-black/65;
+    @apply rounded-2xl border border-white/10;
+    @apply shadow-2xl;
+  }
+
+  /* Navbar con fondo petroleo */
+  .navbar {
+    @apply bg-petroleo shadow-lg;
+    @apply fixed top-0 left-0 right-0 z-50;
+  }
+
+  .navbar-link {
+    @apply text-white/90 hover:text-white;
+    @apply transition-colors duration-200;
+    @apply min-h-touch min-w-touch flex items-center justify-center px-3;
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50;
+    @apply focus-visible:ring-offset-2 focus-visible:ring-offset-petroleo rounded-md;
   }
 }
 
-/* Utilidades personalizadas */
+/* =====================================================
+   UTILITIES LAYER
+   ===================================================== */
 @layer utilities {
   .text-balance {
     text-wrap: balance;
@@ -166,7 +298,7 @@
     @apply transition-all duration-300 ease-out;
   }
 
-  /* Animaciones suaves de entrada */
+  /* Animaciones */
   @keyframes fadeIn {
     from {
       opacity: 0;
@@ -178,22 +310,75 @@
     }
   }
 
-  .animate-fade-in {
-    animation: fadeIn 0.6s ease-out;
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
-  /* Glassmorphism sutil */
+  .animate-fade-in {
+    animation: fadeIn 0.6s ease-out forwards;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.6s ease-out forwards;
+  }
+
+  /* Glassmorphism */
   .glass {
     @apply bg-white/80 dark:bg-neutral-900/80 backdrop-blur-md;
     @apply border border-white/20 dark:border-neutral-700/50;
   }
 
-  /* Gradiente con azul petróleo */
+  .glass-dark {
+    @apply backdrop-blur-md bg-black/65;
+    @apply border border-white/10;
+  }
+
+  /* Gradientes con colores nuevos */
   .gradient-primary {
-    background: linear-gradient(135deg, #155e75 0%, #0e7490 100%);
+    background: linear-gradient(135deg, #2C5F5D 0%, #0f7569 100%);
   }
 
   .gradient-primary-subtle {
-    background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%);
+    background: linear-gradient(135deg, #f0fdf9 0%, #ccfbef 100%);
+  }
+
+  .gradient-coral {
+    background: linear-gradient(135deg, #FF6B4A 0%, #e85a3a 100%);
+  }
+
+  /* Overlay para hero */
+  .hero-overlay {
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.7) 0%,
+      rgba(0, 0, 0, 0.4) 50%,
+      rgba(0, 0, 0, 0.2) 100%
+    );
+  }
+
+  /* Accesibilidad: área mínima de click */
+  .touch-target {
+    @apply min-h-touch min-w-touch;
+  }
+
+  /* Ocultar visualmente pero mantener accesible para screen readers */
+  .visually-hidden {
+    @apply sr-only;
+  }
+
+  /* Focus ring personalizado para elementos sobre fondo oscuro */
+  .focus-ring-light {
+    @apply focus-visible:ring-white/50 focus-visible:ring-offset-petroleo;
+  }
+
+  .focus-ring-coral {
+    @apply focus-visible:ring-coral/50;
   }
 }

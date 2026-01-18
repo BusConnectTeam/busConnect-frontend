@@ -1,4 +1,3 @@
-import { ApiError } from '@/types';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
 
@@ -23,6 +22,46 @@ function getErrorMessage(status: number, defaultMessage?: string): string {
     503: 'Servicio no disponible temporalmente',
   };
   return defaultMessage || messages[status] || `Error ${status}`;
+}
+
+/**
+ * Convierte mensajes de error técnicos en mensajes amigables para el usuario
+ */
+export function getFriendlyErrorMessage(error: unknown): string {
+  // Si es un error de ApiException
+  if (error instanceof ApiException) {
+    const errorMsg = error.message.toLowerCase();
+    
+    // Errores relacionados con rutas/OpenRouteService
+    if (errorMsg.includes('openrouteservice') || errorMsg.includes('404') || errorMsg.includes('not found')) {
+      return 'No se pudo calcular la ruta entre estos municipios. Por favor, intenta con otra ubicación.';
+    }
+    
+    // Límite de peticiones
+    if (error.status === 429 || errorMsg.includes('rate limit') || errorMsg.includes('límite')) {
+      return 'Has realizado demasiadas búsquedas. Por favor, espera unos minutos e intenta nuevamente.';
+    }
+    
+    // Errores de red
+    if (error.status === 503 || errorMsg.includes('no disponible')) {
+      return 'El servicio no está disponible en este momento. Por favor, intenta más tarde.';
+    }
+    
+    // Error de servidor
+    if (error.status >= 500) {
+      return 'Ocurrió un error en el servidor. Por favor, intenta nuevamente más tarde.';
+    }
+  }
+  
+  // Error genérico de red
+  if (error instanceof Error) {
+    if (error.message.toLowerCase().includes('fetch') || error.message.toLowerCase().includes('network')) {
+      return 'No se pudo conectar con el servidor. Verifica tu conexión a internet.';
+    }
+  }
+  
+  // Mensaje por defecto
+  return 'No se pudo completar la búsqueda. Por favor, intenta nuevamente.';
 }
 
 async function handleResponse<T>(response: Response): Promise<T> {
@@ -95,3 +134,4 @@ export const apiClient = {
 };
 
 export { API_URL };
+

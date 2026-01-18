@@ -1,12 +1,12 @@
 import Benefits from '@/components/Benefits';
 import CompanyCTA from '@/components/CompanyCTA';
-import Hero from '@/components/Hero';
+import HeroSection from '@/components/HeroSection';
 import VerifiedCompanies from '@/components/VerifiedCompanies';
 
 export default function HomePage() {
   return (
     <>
-      <Hero />
+      <HeroSection />
       <VerifiedCompanies />
       <Benefits />
       <CompanyCTA />
