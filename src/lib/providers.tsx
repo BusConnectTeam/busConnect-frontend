@@ -1,5 +1,6 @@
 'use client';
 
+import { UserProvider } from '@/contexts/UserContext';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactNode, useState } from 'react';
 
@@ -19,7 +20,7 @@ export function Providers({ children }: { children: ReactNode }) {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {children}
+      <UserProvider>{children}</UserProvider>
     </QueryClientProvider>
   );
 }

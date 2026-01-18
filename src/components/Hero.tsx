@@ -1,10 +1,11 @@
 'use client';
 
 import heroBus from '@/app/assets/hero-bus.jpg';
+import { useCurrentUser } from '@/contexts/UserContext';
 import { useCalculateRoute } from '@/hooks';
 import { Municipality, RouteResult } from '@/types';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Calendar, Clock, Loader2, MapPin, Route, Search, Users, X } from 'lucide-react';
+import { Calendar, Clock, Loader2, Route, Search, Users, X } from 'lucide-react';
 import Image from 'next/image';
 import { useState } from 'react';
 import MunicipalityAutocomplete from './MunicipalityAutocomplete';
@@ -16,6 +17,7 @@ export default function Hero() {
   const [passengers, setPassengers] = useState('');
   const [routeResult, setRouteResult] = useState<RouteResult | null>(null);
 
+  const { currentUser } = useCurrentUser();
   const calculateRoute = useCalculateRoute();
 
   const handleSearch = async (e: React.FormEvent) => {
@@ -27,8 +29,11 @@ export default function Hero() {
 
     calculateRoute.mutate(
       {
-        originMunicipality: origin.name,
-        destinationMunicipality: destination.name,
+        data: {
+          originMunicipality: origin.name,
+          destinationMunicipality: destination.name,
+        },
+        userId: currentUser?.id,
       },
       {
         onSuccess: (result) => {
@@ -51,7 +56,7 @@ export default function Hero() {
   };
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <section className="relative min-h-screen flex items-center overflow-hidden">
       {/* Background Image */}
       <div className="absolute inset-0">
         <Image
@@ -64,13 +69,13 @@ export default function Hero() {
         <div className="absolute inset-0 bg-black/50"></div>
       </div>
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10 w-full">
+      <div className="relative w-full px-4 sm:px-6 lg:px-12 xl:px-24 z-10 py-8">
         {/* Title and Subtitle */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-12"
+          className="text-center mb-8 md:mb-12"
         >
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 drop-shadow-lg">
             Encuentra el autocar perfecto
@@ -85,10 +90,11 @@ export default function Hero() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
+          className="w-full"
         >
           <form
             onSubmit={handleSearch}
-            className="bg-white dark:bg-neutral-800 rounded-2xl shadow-2xl p-6 md:p-8 max-w-5xl mx-auto"
+            className="hero-form bg-white dark:bg-neutral-800 rounded-2xl shadow-2xl p-4 sm:p-6 md:p-8 max-w-5xl"
           >
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
               {/* Origin */}

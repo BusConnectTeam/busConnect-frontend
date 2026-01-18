@@ -1,9 +1,10 @@
 'use client';
 
 import Link from 'next/link';
-import { Bus, Menu, X, Globe, User } from 'lucide-react';
+import { Bus, Menu, X, Globe } from 'lucide-react';
 import { useState, useCallback, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import UserSelector from './UserSelector';
 
 interface NavLinkProps {
   href: string;
@@ -162,18 +163,7 @@ export default function Navbar() {
               <span className="sr-only">Idioma</span>
             </button>
 
-            <Link
-              href="/login"
-              className="flex items-center space-x-2 text-white/90 hover:text-white
-                         transition-colors duration-200 px-4 py-2 min-h-touch
-                         focus-visible:outline-none focus-visible:ring-2
-                         focus-visible:ring-white/50 focus-visible:ring-offset-2
-                         focus-visible:ring-offset-petroleo rounded-lg"
-              aria-label="Iniciar sesión"
-            >
-              <User className="w-5 h-5" aria-hidden="true" />
-              <span>Entrar</span>
-            </Link>
+            <UserSelector />
 
             <Link
               href="/registro-empresa"

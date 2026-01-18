@@ -1,8 +1,8 @@
 'use client';
 
-import { motion } from 'framer-motion';
-import { Star, CheckCircle } from 'lucide-react';
 import { mockCompanies } from '@/lib/mock-data';
+import { motion } from 'framer-motion';
+import { CheckCircle, Star } from 'lucide-react';
 import Image from 'next/image';
 
 export default function VerifiedCompanies() {
@@ -11,7 +11,7 @@ export default function VerifiedCompanies() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Title */}
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-neutral-900 dark:text-white mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-primary to-primary-600 bg-clip-text text-transparent mb-4">
             Empresas verificadas
           </h2>
           <p className="text-lg text-neutral-600 dark:text-neutral-400 max-w-2xl mx-auto">
@@ -27,56 +27,55 @@ export default function VerifiedCompanies() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="card hover:scale-105 transition-transform cursor-pointer"
+              className="card hover:scale-105 transition-transform cursor-pointer overflow-hidden p-0"
             >
-              {/* Logo */}
-              <div className="flex justify-center mb-4">
-                <div className="w-24 h-24 bg-neutral-100 dark:bg-neutral-700 rounded-full flex items-center justify-center">
-                  <Image
-                    src={company.logo}
-                    alt={company.name}
-                    width={96}
-                    height={96}
-                    className="rounded-full"
-                  />
+              {/* Image */}
+              <div className="relative w-full h-48 bg-neutral-100 dark:bg-neutral-700">
+                <Image
+                  src={company.logo}
+                  alt={company.name}
+                  fill
+                  className="object-cover"
+                />
+              </div>
+
+              <div className="p-6">
+                {/* Name and Verified Badge */}
+                <div className="text-center mb-3">
+                  <h3 className="font-semibold text-lg text-neutral-900 dark:text-white mb-1">
+                    {company.name}
+                  </h3>
+                  {company.verified && (
+                    <div className="flex items-center justify-center space-x-1 text-accent-green text-sm">
+                      <CheckCircle className="w-4 h-4" />
+                      <span>Verificada</span>
+                    </div>
+                  )}
                 </div>
-              </div>
 
-              {/* Name and Verified Badge */}
-              <div className="text-center mb-3">
-                <h3 className="font-semibold text-lg text-neutral-900 dark:text-white mb-1">
-                  {company.name}
-                </h3>
-                {company.verified && (
-                  <div className="flex items-center justify-center space-x-1 text-accent-green text-sm">
-                    <CheckCircle className="w-4 h-4" />
-                    <span>Verificada</span>
+                {/* Rating */}
+                <div className="flex items-center justify-center space-x-2 mb-3">
+                  <div className="flex items-center space-x-1">
+                    <Star className="w-5 h-5 fill-accent-yellow text-accent-yellow" />
+                    <span className="font-semibold text-neutral-900 dark:text-white">
+                      {company.rating}
+                    </span>
                   </div>
-                )}
-              </div>
-
-              {/* Rating */}
-              <div className="flex items-center justify-center space-x-2 mb-3">
-                <div className="flex items-center space-x-1">
-                  <Star className="w-5 h-5 fill-accent-yellow text-accent-yellow" />
-                  <span className="font-semibold text-neutral-900 dark:text-white">
-                    {company.rating}
+                  <span className="text-sm text-neutral-500 dark:text-neutral-400">
+                    ({company.reviewCount} reseñas)
                   </span>
                 </div>
-                <span className="text-sm text-neutral-500 dark:text-neutral-400">
-                  ({company.reviewCount} reseñas)
-                </span>
+
+                {/* Description */}
+                <p className="text-sm text-neutral-600 dark:text-neutral-400 text-center line-clamp-2">
+                  {company.description}
+                </p>
+
+                {/* CTA */}
+                <button className="mt-4 w-full text-sm py-2.5 px-4 border border-primary/20 rounded-lg text-primary dark:text-primary-400 font-medium hover:bg-primary hover:text-white hover:border-primary transition-all duration-300">
+                  Ver flota
+                </button>
               </div>
-
-              {/* Description */}
-              <p className="text-sm text-neutral-600 dark:text-neutral-400 text-center line-clamp-2">
-                {company.description}
-              </p>
-
-              {/* CTA */}
-              <button className="mt-4 w-full btn-secondary text-sm py-2">
-                Ver flota
-              </button>
             </motion.div>
           ))}
         </div>

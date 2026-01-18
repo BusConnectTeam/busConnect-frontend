@@ -33,7 +33,8 @@ export function useMunicipalitiesByProvince(province: Province) {
 
 export function useCalculateRoute() {
   return useMutation({
-    mutationFn: (data: CalculateRouteRequest) => catalogApi.calculateRoute(data),
+    mutationFn: ({ data, userId }: { data: CalculateRouteRequest; userId?: number }) =>
+      catalogApi.calculateRoute(data, userId),
   });
 }
 

@@ -4,7 +4,7 @@ export const mockCompanies: Company[] = [
   {
     id: '1',
     name: 'Autocares Barcelona Premium',
-    logo: 'https://via.placeholder.com/100x100?text=ABP',
+    logo: '/images/companies/autocares-barcelona-premium.png',
     rating: 4.8,
     reviewCount: 342,
     verified: true,
@@ -14,7 +14,7 @@ export const mockCompanies: Company[] = [
   {
     id: '2',
     name: 'Costa Brava Tours',
-    logo: 'https://via.placeholder.com/100x100?text=CBT',
+    logo: '/images/companies/costa-brava-tours.png',
     rating: 4.6,
     reviewCount: 218,
     verified: true,
@@ -24,7 +24,7 @@ export const mockCompanies: Company[] = [
   {
     id: '3',
     name: 'Transports Modernos SA',
-    logo: 'https://via.placeholder.com/100x100?text=TM',
+    logo: '/images/companies/transports-modernos-sa.png',
     rating: 4.7,
     reviewCount: 456,
     verified: true,
@@ -34,7 +34,7 @@ export const mockCompanies: Company[] = [
   {
     id: '4',
     name: 'Autocares Cataluña Express',
-    logo: 'https://via.placeholder.com/100x100?text=ACE',
+    logo: '/images/companies/autocares-express.png',
     rating: 4.5,
     reviewCount: 189,
     verified: true,

@@ -55,12 +55,13 @@ export const catalogApi = {
   /**
    * Calcular ruta entre dos municipios
    * @param data - Origen, destino y opcionalmente forzar recálculo
+   * @param userId - ID del usuario para tracking (opcional)
    */
-  calculateRoute: (data: CalculateRouteRequest): Promise<RouteResult> => {
-    return apiClient.post<RouteResult, CalculateRouteRequest>(
-      `${BASE_PATH}/calculate`,
-      data
-    );
+  calculateRoute: (data: CalculateRouteRequest, userId?: number): Promise<RouteResult> => {
+    const url = userId
+      ? `${BASE_PATH}/calculate?userId=${userId}`
+      : `${BASE_PATH}/calculate`;
+    return apiClient.post<RouteResult, CalculateRouteRequest>(url, data);
   },
 
   // ============================================
