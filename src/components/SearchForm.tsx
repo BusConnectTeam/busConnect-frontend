@@ -1,5 +1,6 @@
 'use client';
 
+import { useCurrentUser } from '@/contexts/UserContext';
 import { useCalculateRoute } from '@/hooks';
 import { getFriendlyErrorMessage } from '@/lib/api/client';
 import { Municipality, RouteResult } from '@/types';
@@ -55,6 +56,7 @@ export default function SearchForm({ className = '' }: SearchFormProps) {
     },
   });
 
+  const { currentUser } = useCurrentUser();
   const calculateRoute = useCalculateRoute();
 
   // Manejar selección de origen
@@ -83,8 +85,11 @@ export default function SearchForm({ className = '' }: SearchFormProps) {
 
     calculateRoute.mutate(
       {
-        originMunicipality: originMunicipality.name,
-        destinationMunicipality: destinationMunicipality.name,
+        data: {
+          originMunicipality: originMunicipality.name,
+          destinationMunicipality: destinationMunicipality.name,
+        },
+        userId: currentUser?.id,
       },
       {
         onSuccess: (result) => {
