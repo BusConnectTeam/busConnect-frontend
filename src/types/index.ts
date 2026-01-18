@@ -106,7 +106,7 @@ export interface Municipality {
   updatedAt: string;
 }
 
-export type RouteSource = 'openroute' | 'cache' | 'fallback';
+export type RouteSource = 'openroute' | 'cache' | 'fallback' | 'error';
 
 export interface RouteResult {
   origin: string;
