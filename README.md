@@ -1,5 +1,8 @@
 # BusConnect Frontend
 
+![CI/CD](https://github.com/BusConnectTeam/busConnect-frontend/workflows/CI%2FCD%20Pipeline/badge.svg)
+![PR Checks](https://github.com/BusConnectTeam/busConnect-frontend/workflows/PR%20Checks/badge.svg)
+
 > Plataforma de reservas de autocares para Catalunya
 
 ## 📋 Descripción
@@ -126,7 +129,19 @@ npm run lint     # Ejecutar linter
 
 ## 🌐 Despliegue
 
-El proyecto está configurado para desplegarse en **Railway**. El despliegue en producción se activará automáticamente al hacer push a la rama `main`.
+El proyecto está configurado para desplegarse en **Render** con integración continua mediante **GitHub Actions**.
+
+### GitHub Actions
+- ✅ CI/CD automático en push a `main` o `develop`
+- ✅ Verificaciones en Pull Requests
+- ✅ Deploy automático a Render (opcional)
+
+Ver [documentación completa de GitHub Actions](.github/GITHUB_ACTIONS.md) para configuración detallada.
+
+### Configurar Auto-Deploy
+1. Obtén el Deploy Hook desde Render Dashboard
+2. Añade el secret `RENDER_DEPLOY_HOOK_URL` en GitHub
+3. Descomenta el job `deploy` en `.github/workflows/ci.yml`
 
 ## 📄 Licencia
 
