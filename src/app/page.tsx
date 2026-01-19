@@ -1,7 +1,4 @@
-import Benefits from '@/components/Benefits';
-import CompanyCTA from '@/components/CompanyCTA';
-import HeroSection from '@/components/HeroSection';
-import VerifiedCompanies from '@/components/VerifiedCompanies';
+import { Benefits, CompanyCTA, HeroSection, VerifiedCompanies } from '@/components';
 
 export default function HomePage() {
   return (
