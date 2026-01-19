@@ -4,7 +4,7 @@ services:
     runtime: node
     plan: free
     branch: main
-    buildCommand: npm install && npm run build
+    buildCommand: rm -rf node_modules && npm ci && npm run build
     startCommand: npm start
     healthCheckPath: /
     envVars:
