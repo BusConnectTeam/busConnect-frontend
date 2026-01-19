@@ -3,9 +3,14 @@ services:
     name: busconnect-frontend
     runtime: node
     plan: free
+    region: frankfurt
+    branch: main
     buildCommand: npm install && npm run build
     startCommand: npm start
+    healthCheckPath: /
     envVars:
       - key: NEXT_PUBLIC_API_URL
-        sync: false
+        value: https://busconnect-api-gateway.onrender.com
+      - key: NODE_ENV
+        value: production
     autoDeploy: true
