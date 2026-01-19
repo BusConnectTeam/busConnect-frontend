@@ -1,0 +1,11 @@
+services:
+  - type: web
+    runtime: node
+    name: busconnect-frontend
+    repo: https://github.com/BusConnectTeam/busConnect-frontend
+    branch: main
+    buildCommand: npm ci && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NEXT_PUBLIC_API_URL
+        value: https://busconnect-api-gateway.onrender.com
