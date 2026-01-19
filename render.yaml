@@ -4,7 +4,7 @@ services:
     runtime: node
     plan: free
     branch: main
-    buildCommand: rm -rf node_modules && npm ci && npm run build
+    buildCommand: npm ci && npm run build
     startCommand: npm start
     healthCheckPath: /
     envVars:
@@ -12,4 +12,4 @@ services:
         value: https://busconnect-api-gateway.onrender.com
       - key: NODE_ENV
         value: production
-    autoDeploy: true
+    autoDeploy: false
