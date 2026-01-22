@@ -10,10 +10,8 @@ import { AnimatePresence, motion } from 'framer-motion';
 import {
   AlertCircle,
   Calendar,
-  Clock,
   Loader2,
   MapPin,
-  Route,
   Search,
   Users,
   X,
@@ -24,9 +22,10 @@ import MunicipalityAutocomplete from './MunicipalityAutocomplete';
 
 interface SearchFormProps {
   className?: string;
+  onSearchResults?: (result: RouteResult | null, params: { date: string; passengers: number } | null) => void;
 }
 
-export default function SearchForm({ className = '' }: SearchFormProps) {
+export default function SearchForm({ className = '', onSearchResults }: SearchFormProps) {
   // Unique IDs para accesibilidad
   const formId = useId();
   const originId = `${formId}-origin`;
@@ -39,6 +38,9 @@ export default function SearchForm({ className = '' }: SearchFormProps) {
   const [originMunicipality, setOriginMunicipality] = useState<Municipality | null>(null);
   const [destinationMunicipality, setDestinationMunicipality] = useState<Municipality | null>(null);
   const [routeResult, setRouteResult] = useState<RouteResult | null>(null);
+
+  // Estado para guardar los parámetros de búsqueda al hacer submit
+  const [searchParams, setSearchParams] = useState<{ date: string; passengers: number } | null>(null);
 
   // React Hook Form con validación Zod
   const {
@@ -78,10 +80,17 @@ export default function SearchForm({ className = '' }: SearchFormProps) {
   );
 
   // Submit del formulario
-  const onSubmit = async () => {
+  const onSubmit = async (formData: SearchFormData) => {
     if (!originMunicipality || !destinationMunicipality) {
       return;
     }
+
+    // Guardar los parámetros de búsqueda
+    const params = {
+      date: formData.date,
+      passengers: formData.passengers,
+    };
+    setSearchParams(params);
 
     calculateRoute.mutate(
       {
@@ -106,20 +115,23 @@ export default function SearchForm({ className = '' }: SearchFormProps) {
           } else {
             setRouteResult(result);
           }
+          onSearchResults?.(result, params);
         },
         onError: (error) => {
           // Manejar errores HTTP (red, servidor, etc.)
           const friendlyMessage = getFriendlyErrorMessage(error);
-          setRouteResult({
+          const errorResult = {
             success: false,
             errorMessage: friendlyMessage,
             origin: originMunicipality.name,
             destination: destinationMunicipality.name,
             distanceKm: 0,
             durationMinutes: 0,
-            source: 'error',
+            source: 'error' as const,
             calculatedAt: new Date().toISOString(),
-          });
+          };
+          setRouteResult(errorResult);
+          onSearchResults?.(errorResult, params);
         },
       }
     );
@@ -128,16 +140,9 @@ export default function SearchForm({ className = '' }: SearchFormProps) {
   // Limpiar resultado
   const clearResult = useCallback(() => {
     setRouteResult(null);
-  }, []);
-
-  // Formatear duración
-  const formatDuration = (minutes: number): string => {
-    const hours = Math.floor(minutes / 60);
-    const mins = Math.round(minutes % 60);
-    if (hours === 0) return `${mins} min`;
-    if (mins === 0) return `${hours}h`;
-    return `${hours}h ${mins}min`;
-  };
+    setSearchParams(null);
+    onSearchResults?.(null, null);
+  }, [onSearchResults]);
 
   // Obtener fecha mínima (hoy)
   const getMinDate = (): string => {
@@ -263,7 +268,7 @@ export default function SearchForm({ className = '' }: SearchFormProps) {
                          min-h-touch
                          [color-scheme:dark]"
               aria-required="true"
-              aria-invalid={!!errors.date}
+              {...(errors.date && { 'aria-invalid': 'true' })}
               aria-describedby={errors.date ? `${dateId}-error` : undefined}
             />
             {errors.date && (
@@ -310,7 +315,7 @@ export default function SearchForm({ className = '' }: SearchFormProps) {
                          [&::-webkit-outer-spin-button]:appearance-none
                          [&::-webkit-inner-spin-button]:appearance-none"
               aria-required="true"
-              aria-invalid={!!errors.passengers}
+              {...(errors.passengers && { 'aria-invalid': 'true' })}
               aria-describedby={errors.passengers ? `${passengersId}-error` : undefined}
             />
             {errors.passengers && (
@@ -340,65 +345,8 @@ export default function SearchForm({ className = '' }: SearchFormProps) {
           )}
         </div>
 
-        {/* Resultado de ruta */}
+        {/* Mensaje de error inline */}
         <AnimatePresence>
-          {routeResult && routeResult.success && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              className="mt-6"
-            >
-              <div
-                className="bg-white/10 backdrop-blur-sm border border-white/20
-                           rounded-xl p-4"
-                role="region"
-                aria-label="Resultado del cálculo de ruta"
-              >
-                <div className="flex items-center justify-between mb-3">
-                  <div className="flex items-center gap-2 text-coral-300">
-                    <Route className="w-5 h-5" aria-hidden="true" />
-                    <span className="font-semibold text-white">Ruta calculada</span>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={clearResult}
-                    className="text-white/60 hover:text-white transition-colors
-                               p-2 min-h-touch min-w-touch flex items-center justify-center
-                               focus-visible:outline-none focus-visible:ring-2
-                               focus-visible:ring-coral/50 rounded-lg"
-                    aria-label="Cerrar resultado de ruta"
-                  >
-                    <X className="w-5 h-5" aria-hidden="true" />
-                  </button>
-                </div>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-                  <div>
-                    <p className="text-sm text-white/60">Origen</p>
-                    <p className="font-semibold text-white">{routeResult.origin}</p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-white/60">Destino</p>
-                    <p className="font-semibold text-white">{routeResult.destination}</p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-white/60">Distancia</p>
-                    <p className="font-semibold text-white">
-                      {routeResult.distanceKm.toFixed(1)} km
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-white/60">Duración</p>
-                    <p className="font-semibold text-white flex items-center justify-center gap-1">
-                      <Clock className="w-4 h-4" aria-hidden="true" />
-                      {formatDuration(routeResult.durationMinutes)}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          )}
-
           {routeResult && !routeResult.success && (
             <motion.div
               initial={{ opacity: 0, height: 0 }}
@@ -458,7 +406,7 @@ export default function SearchForm({ className = '' }: SearchFormProps) {
                        focus-visible:outline-none focus-visible:ring-2
                        focus-visible:ring-white/50 focus-visible:ring-offset-2
                        focus-visible:ring-offset-black/65"
-            aria-busy={isLoading}
+            {...(isLoading && { 'aria-busy': 'true' })}
           >
             {isLoading ? (
               <>

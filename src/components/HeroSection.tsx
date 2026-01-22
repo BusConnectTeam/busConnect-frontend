@@ -1,10 +1,34 @@
 'use client';
 
 import heroBus from '@/app/assets/hero-bus.jpg';
+import type { RouteResult } from '@/types';
 import Image from 'next/image';
+import { useEffect, useState } from 'react';
 import SearchForm from './SearchForm';
+import SearchResults from './SearchResults';
 
 export default function HeroSection() {
+  const [searchResults, setSearchResults] = useState<RouteResult | null>(null);
+  const [searchParams, setSearchParams] = useState<{ date: string; passengers: number } | null>(null);
+
+  const handleSearchResults = (result: RouteResult | null, params: { date: string; passengers: number } | null) => {
+    setSearchResults(result);
+    setSearchParams(params);
+  };
+
+  // Scroll automático a resultados cuando se cargan exitosamente
+  useEffect(() => {
+    if (searchResults && searchResults.success && searchParams) {
+      // Esperar a que el DOM se actualice
+      setTimeout(() => {
+        const resultsSection = document.getElementById('search-results');
+        if (resultsSection) {
+          resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 100);
+    }
+  }, [searchResults, searchParams]);
+
   const handleScrollDown = () => {
     // Scroll a la siguiente sección (después del hero)
     const heroSection = document.getElementById('main-content');
@@ -22,12 +46,13 @@ export default function HeroSection() {
     }
   };
   return (
-    <section
-      id="main-content"
-      className="relative min-h-screen flex flex-col justify-end overflow-hidden"
-      aria-labelledby="hero-title"
-      role="region"
-    >
+    <>
+      <section
+        id="main-content"
+        className="relative min-h-screen flex flex-col justify-end overflow-hidden"
+        aria-labelledby="hero-title"
+        role="region"
+      >
       {/* Imagen de fondo con optimización LCP */}
       <div className="absolute inset-0" aria-hidden="true">
         <Image
@@ -86,7 +111,10 @@ export default function HeroSection() {
                            animate-slide-up"
                 style={{ animationDelay: '0.2s' }}
               >
-                <SearchForm className="mx-4 md:mx-0" />
+                <SearchForm 
+                  className="mx-4 md:mx-0" 
+                  onSearchResults={handleSearchResults}
+                />
 
                 {/* Trust indicators - Debajo del formulario en desktop */}
                 <div
@@ -182,5 +210,23 @@ export default function HeroSection() {
         </svg>
       </button>
     </section>
+
+    {/* Sección de resultados - Separada del hero con gradiente petroleo */}
+    {searchResults && searchResults.success && searchParams && (
+      <section id="search-results" className="gradient-primary py-12 md:py-16 lg:py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <SearchResults
+            routeResult={searchResults}
+            passengers={searchParams.passengers}
+            date={searchParams.date}
+            onSelectBus={(bus, company, price) => {
+              console.log('Bus seleccionado:', bus, company, price);
+              // TODO: Implementar flujo de solicitud de presupuesto
+            }}
+          />
+        </div>
+      </section>
+    )}
+    </>
   );
 }

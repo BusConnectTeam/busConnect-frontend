@@ -138,3 +138,95 @@ export interface ApiResponse<T> {
   success: boolean;
   error?: ApiError;
 }
+
+// ============================================
+// COMPANY SERVICE TYPES
+// ============================================
+
+// Bus Company
+export interface BusCompany {
+  id: number;
+  name: string;
+  legalName: string;
+  taxId: string;
+  email: string;
+  phone: string;
+  website: string | null;
+  logoUrl: string | null;
+  description: string | null;
+  address: string;
+  city: string;
+  postalCode: string;
+  country: string;
+  foundedYear: number | null;
+  active: boolean;
+  verified: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface BusCompanyStats {
+  company: BusCompany;
+  totalBuses: number;
+  totalDrivers: number;
+}
+
+// Bus Type (from backend - different from frontend BusType)
+export type SeatType = 'standard' | 'premium' | 'vip' | 'sleeper';
+
+export interface BusTypeEntity {
+  id: number;
+  companyId: number;
+  name: string;
+  description: string | null;
+  capacity: number;
+  seatType: SeatType;
+  hasWifi: boolean;
+  hasAirConditioning: boolean;
+  hasToilet: boolean;
+  hasUSBChargers: boolean;
+  hasEntertainment: boolean;
+  luggageCapacityKg: number;
+  imageUrl: string | null;
+  pricePerKm: number;
+  active: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface BusTypeFilters {
+  minCapacity?: number;
+  maxCapacity?: number;
+  seatType?: SeatType;
+  hasWifi?: boolean;
+  hasAirConditioning?: boolean;
+  hasToilet?: boolean;
+}
+
+// Driver
+export interface Driver {
+  id: number;
+  companyId: number;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  licenseNumber: string;
+  licenseExpiry: string;
+  dateOfBirth: string;
+  hireDate: string;
+  yearsExperience: number;
+  languages: string[];
+  photoUrl: string | null;
+  rating: number;
+  totalTrips: number;
+  active: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface DriverFilters {
+  minExperience?: number;
+  language?: string;
+  name?: string;
+}

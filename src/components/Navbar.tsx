@@ -1,9 +1,9 @@
 'use client';
 
+import { AnimatePresence, motion } from 'framer-motion';
+import { Bus, Globe, Menu, X } from 'lucide-react';
 import Link from 'next/link';
-import { Bus, Menu, X, Globe } from 'lucide-react';
-import { useState, useCallback, useRef, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import UserSelector from './UserSelector';
 
 interface NavLinkProps {
@@ -138,8 +138,6 @@ export default function Navbar() {
           {/* Desktop Navigation */}
           <div
             className="hidden md:flex items-center space-x-2"
-            role="menubar"
-            aria-label="Menú de navegación"
           >
             <NavLink href="/empresas">Empresas</NavLink>
             <NavLink href="/como-funciona">Cómo funciona</NavLink>
@@ -190,8 +188,6 @@ export default function Navbar() {
                        focus-visible:outline-none focus-visible:ring-2
                        focus-visible:ring-white/50 focus-visible:ring-offset-2
                        focus-visible:ring-offset-petroleo rounded-lg"
-            aria-expanded={mobileMenuOpen}
-            aria-controls="mobile-menu"
             aria-label={mobileMenuOpen ? 'Cerrar menú' : 'Abrir menú'}
           >
             {mobileMenuOpen ? (
@@ -228,7 +224,7 @@ export default function Navbar() {
                 className="absolute top-full left-0 right-0 md:hidden
                            bg-white dark:bg-neutral-900 shadow-xl
                            border-t border-petroleo-800"
-                role="menu"
+                role="region"
                 aria-label="Menú móvil"
               >
                 <div className="py-2">

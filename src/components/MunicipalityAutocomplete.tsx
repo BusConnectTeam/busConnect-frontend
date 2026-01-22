@@ -99,10 +99,9 @@ export default function MunicipalityAutocomplete({
 
   const handleSelect = (municipality: Municipality) => {
     setInputValue(municipality.name);
-    onChange(municipality);
     setIsOpen(false);
     setSelectedIndex(-1);
-    inputRef.current?.focus();
+    onChange(municipality);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -192,7 +191,6 @@ export default function MunicipalityAutocomplete({
           ref={inputRef}
           id={id}
           type="text"
-          role="combobox"
           autoComplete="off"
           placeholder={placeholder}
           value={inputValue}
@@ -200,16 +198,6 @@ export default function MunicipalityAutocomplete({
           onKeyDown={handleKeyDown}
           onFocus={() => inputValue.length >= 2 && setIsOpen(true)}
           className={inputClasses}
-          aria-expanded={isOpen}
-          aria-haspopup="listbox"
-          aria-controls={listboxId}
-          aria-activedescendant={
-            selectedIndex >= 0 ? `${listboxId}-option-${selectedIndex}` : undefined
-          }
-          aria-autocomplete="list"
-          aria-required={required}
-          aria-invalid={hasError}
-          aria-describedby={errorId}
         />
 
         {/* Indicador de carga */}
@@ -257,7 +245,6 @@ export default function MunicipalityAutocomplete({
           {!isLoading && municipalities.length > 0 && (
             <ul
               id={listboxId}
-              role="listbox"
               aria-label={`Sugerencias para ${label || placeholder}`}
               className={`absolute z-[9999] w-full mt-1 border-2 rounded-lg shadow-2xl
                           max-h-60 overflow-auto ${dropdownClasses}`}
@@ -266,8 +253,6 @@ export default function MunicipalityAutocomplete({
                 <li
                   key={municipality.id}
                   id={`${listboxId}-option-${index}`}
-                  role="option"
-                  aria-selected={index === selectedIndex}
                   onClick={() => handleSelect(municipality)}
                   onMouseEnter={() => setSelectedIndex(index)}
                   className={`px-4 py-3 cursor-pointer flex items-center justify-between
