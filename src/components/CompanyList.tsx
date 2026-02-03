@@ -1,9 +1,9 @@
 'use client';
 
-import { BusCompany } from '@/types';
 import { companiesApi } from '@/lib/api';
-import { useEffect, useState, useCallback } from 'react';
-import { Loader2, AlertCircle, Search } from 'lucide-react';
+import { BusCompany } from '@/types';
+import { AlertCircle, Loader2, Search } from 'lucide-react';
+import { useCallback, useEffect, useState } from 'react';
 import CompanyCard from './CompanyCard';
 
 interface CompanyListProps {
@@ -50,14 +50,14 @@ export default function CompanyList({ onViewFleet }: CompanyListProps) {
 
     if (cityFilter) {
       filtered = filtered.filter((c) =>
-        c.city.toLowerCase().includes(cityFilter.toLowerCase())
+        c.city?.toLowerCase().includes(cityFilter.toLowerCase())
       );
     }
 
     setFilteredCompanies(filtered);
   }, [companies, searchTerm, cityFilter]);
 
-  const uniqueCities = Array.from(new Set(companies.map((c) => c.city))).sort();
+  const uniqueCities = Array.from(new Set(companies.map((c) => c.city).filter((city): city is string => city !== null))).sort();
 
   if (loading) {
     return (

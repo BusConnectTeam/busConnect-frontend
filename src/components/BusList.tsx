@@ -1,9 +1,9 @@
 'use client';
 
-import { BusTypeEntity, SeatType } from '@/types';
 import { busesApi } from '@/lib/api';
-import { useEffect, useState, useCallback } from 'react';
-import { Loader2, AlertCircle, Filter } from 'lucide-react';
+import { BusTypeEntity, SeatType } from '@/types';
+import { AlertCircle, Filter, Loader2 } from 'lucide-react';
+import { useCallback, useEffect, useState } from 'react';
 import BusCard from './BusCard';
 
 interface BusListProps {
@@ -59,7 +59,7 @@ export default function BusList({ companyId, onSelect }: BusListProps) {
     }
 
     if (hasAC !== null) {
-      filtered = filtered.filter((b) => b.hasAirConditioning === hasAC);
+      filtered = filtered.filter((b) => b.hasAc === hasAC);
     }
 
     setFilteredBuses(filtered);

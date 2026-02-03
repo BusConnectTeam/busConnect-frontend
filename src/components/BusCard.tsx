@@ -3,14 +3,13 @@
 import { BusTypeEntity } from '@/types';
 import { motion } from 'framer-motion';
 import {
-  Bus,
-  Users,
-  Wifi,
-  Wind,
-  Armchair,
-  Plug,
-  Tv,
-  Luggage,
+    Armchair,
+    Bus,
+    Plug,
+    Tv,
+    Users,
+    Wifi,
+    Wind
 } from 'lucide-react';
 import Image from 'next/image';
 
@@ -37,10 +36,10 @@ const seatTypeColors: Record<string, string> = {
 export default function BusCard({ bus, index = 0, onSelect }: BusCardProps) {
   const amenities = [
     { icon: Wifi, label: 'WiFi', active: bus.hasWifi },
-    { icon: Wind, label: 'A/C', active: bus.hasAirConditioning },
+    { icon: Wind, label: 'A/C', active: bus.hasAc },
     { icon: Armchair, label: 'WC', active: bus.hasToilet },
-    { icon: Plug, label: 'USB', active: bus.hasUSBChargers },
-    { icon: Tv, label: 'Entretenimiento', active: bus.hasEntertainment },
+    { icon: Plug, label: 'USB', active: bus.hasUsbChargers },
+    { icon: Tv, label: 'Entretenimiento', active: bus.hasEntertainmentSystem },
   ];
 
   return (
@@ -82,12 +81,6 @@ export default function BusCard({ bus, index = 0, onSelect }: BusCardProps) {
         <div className="flex items-center space-x-2 text-sm text-neutral-600 dark:text-neutral-400 mb-3">
           <Users className="w-4 h-4" />
           <span>{bus.capacity} pasajeros</span>
-        </div>
-
-        {/* Luggage */}
-        <div className="flex items-center space-x-2 text-sm text-neutral-600 dark:text-neutral-400 mb-3">
-          <Luggage className="w-4 h-4" />
-          <span>{bus.luggageCapacityKg} kg equipaje</span>
         </div>
 
         {/* Amenities */}
