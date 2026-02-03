@@ -109,7 +109,7 @@ export default function EmpresasPage() {
 
       // Extraer ciudades únicas
       const citiesArray = data.map((c) => c.city).filter((city): city is string => city !== null && city !== undefined);
-      const uniqueCities = [...new Set(citiesArray)].sort();
+      const uniqueCities = Array.from(new Set(citiesArray)).sort();
       setCities(uniqueCities);
     } catch {
       setError('Error al cargar las empresas. Por favor, intenta de nuevo.');
