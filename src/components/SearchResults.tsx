@@ -307,12 +307,12 @@ export default function SearchResults({
                       {bus.capacity}
                     </span>
                     {bus.hasWifi && <Wifi className="w-3.5 h-3.5 text-white/60" />}
-                    {bus.hasAirConditioning && <Wind className="w-3.5 h-3.5 text-white/60" />}
+                    {bus.hasAc && <Wind className="w-3.5 h-3.5 text-white/60" />}
                     {bus.hasToilet && (
                       <span className="text-white/60 text-xs">WC</span>
                     )}
-                    {bus.hasUSBChargers && <Plug className="w-3.5 h-3.5 text-white/60" />}
-                    {bus.hasEntertainment && <Tv className="w-3.5 h-3.5 text-white/60" />}
+                    {bus.hasUsbChargers && <Plug className="w-3.5 h-3.5 text-white/60" />}
+                    {bus.hasEntertainmentSystem && <Tv className="w-3.5 h-3.5 text-white/60" />}
                   </div>
 
                   {/* Precio y botón */}

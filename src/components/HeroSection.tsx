@@ -111,8 +111,7 @@ export default function HeroSection() {
                            animate-slide-up"
                 style={{ animationDelay: '0.2s' }}
               >
-                <SearchForm 
-                  className="mx-4 md:mx-0" 
+                <SearchForm
                   onSearchResults={handleSearchResults}
                 />
 

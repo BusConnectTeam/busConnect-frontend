@@ -307,6 +307,19 @@
     @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50;
     @apply focus-visible:ring-offset-2 focus-visible:ring-offset-petroleo rounded-md;
   }
+
+  /* Gradientes principales - en components para mayor especificidad */
+  .gradient-primary {
+    background: linear-gradient(135deg, #2C5F5D 0%, #0f7569 100%) !important;
+  }
+
+  .gradient-primary-subtle {
+    background: linear-gradient(135deg, #f0fdf9 0%, #ccfbef 100%) !important;
+  }
+
+  .gradient-coral {
+    background: linear-gradient(135deg, #FF6B4A 0%, #e85a3a 100%) !important;
+  }
 }
 
 /* =====================================================
@@ -367,19 +380,6 @@
     @apply border border-white/10;
   }
 
-  /* Gradientes con colores nuevos */
-  .gradient-primary {
-    background: linear-gradient(135deg, #2C5F5D 0%, #0f7569 100%);
-  }
-
-  .gradient-primary-subtle {
-    background: linear-gradient(135deg, #f0fdf9 0%, #ccfbef 100%);
-  }
-
-  .gradient-coral {
-    background: linear-gradient(135deg, #FF6B4A 0%, #e85a3a 100%);
-  }
-
   /* Overlay para hero */
   .hero-overlay {
     background: linear-gradient(
@@ -407,5 +407,278 @@
 
   .focus-ring-coral {
     @apply focus-visible:ring-coral/50;
+  }
+
+  /* =====================================================
+     ESTILOS CREATIVOS - PÁGINA DE EMPRESAS
+     ===================================================== */
+
+  /* Patrón decorativo de fondo */
+  .pattern-dots {
+    background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+
+  .pattern-grid {
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
+  /* Hero con patrón ondulado */
+  .hero-wave {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-wave::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 60'%3E%3Cpath fill='%23fafafa' d='M0,0 C240,60 480,60 720,30 C960,0 1200,0 1440,30 L1440,60 L0,60 Z'/%3E%3C/svg%3E") no-repeat bottom;
+    background-size: cover;
+  }
+
+  .dark .hero-wave::after {
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 60'%3E%3Cpath fill='%23171717' d='M0,0 C240,60 480,60 720,30 C960,0 1200,0 1440,30 L1440,60 L0,60 Z'/%3E%3C/svg%3E") no-repeat bottom;
+    background-size: cover;
+  }
+
+  /* Tarjeta con efecto de brillo en hover */
+  .card-shine {
+    @apply relative overflow-hidden;
+  }
+
+  .card-shine::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.1),
+      transparent
+    );
+    transition: left 0.5s ease;
+    pointer-events: none;
+  }
+
+  .card-shine:hover::before {
+    left: 100%;
+  }
+
+  /* Borde gradiente animado */
+  .border-gradient {
+    @apply relative;
+  }
+
+  .border-gradient::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    padding: 2px;
+    border-radius: inherit;
+    background: linear-gradient(135deg, #2C5F5D, #FF6B4A, #2C5F5D);
+    background-size: 200% 200%;
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .border-gradient:hover::before {
+    opacity: 1;
+    animation: gradient-rotate 3s linear infinite;
+  }
+
+  @keyframes gradient-rotate {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  /* Contador animado estilo stat */
+  .stat-card {
+    @apply relative p-6 rounded-2xl;
+    @apply bg-white/10 backdrop-blur-sm border border-white/20;
+    @apply transition-all duration-300;
+  }
+
+  .stat-card:hover {
+    @apply bg-white/15 border-white/30;
+    transform: translateY(-2px);
+  }
+
+  .stat-number {
+    @apply text-4xl md:text-5xl font-bold;
+    background: linear-gradient(135deg, #fff 0%, #FF6B4A 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Badge premium con brillo */
+  .badge-verified {
+    @apply inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full;
+    @apply bg-gradient-to-r from-green-500/20 to-emerald-500/20;
+    @apply border border-green-400/30;
+    @apply text-green-400 text-sm font-medium;
+    box-shadow: 0 0 20px rgba(34, 197, 94, 0.2);
+  }
+
+  /* Icono flotante decorativo */
+  .floating-icon {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+
+  /* Efecto de pulso suave */
+  .pulse-soft {
+    animation: pulse-soft 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse-soft {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+  }
+
+  /* Card destacada con sombra coloreada */
+  .card-featured {
+    @apply bg-white dark:bg-neutral-800;
+    @apply rounded-2xl border-2 border-petroleo/20 dark:border-petroleo/30;
+    @apply p-6;
+    box-shadow:
+      0 4px 6px -1px rgba(44, 95, 93, 0.1),
+      0 2px 4px -2px rgba(44, 95, 93, 0.1),
+      0 0 0 1px rgba(44, 95, 93, 0.05);
+    transition: all 0.3s ease;
+  }
+
+  .card-featured:hover {
+    @apply border-petroleo/40 dark:border-petroleo/50;
+    box-shadow:
+      0 20px 25px -5px rgba(44, 95, 93, 0.15),
+      0 8px 10px -6px rgba(44, 95, 93, 0.1),
+      0 0 0 1px rgba(44, 95, 93, 0.1);
+    transform: translateY(-4px);
+  }
+
+  /* Ribbon/cinta para destacar */
+  .ribbon {
+    @apply absolute -top-1 -right-1;
+    @apply bg-coral text-white text-xs font-bold;
+    @apply px-3 py-1 rounded-bl-lg rounded-tr-xl;
+    box-shadow: 0 2px 8px rgba(255, 107, 74, 0.4);
+  }
+
+  /* Divider decorativo */
+  .divider-fancy {
+    @apply relative flex items-center justify-center my-8;
+  }
+
+  .divider-fancy::before,
+  .divider-fancy::after {
+    content: '';
+    @apply flex-1 h-px bg-gradient-to-r;
+  }
+
+  .divider-fancy::before {
+    @apply from-transparent to-neutral-300 dark:to-neutral-600;
+  }
+
+  .divider-fancy::after {
+    @apply from-neutral-300 dark:from-neutral-600 to-transparent;
+  }
+
+  .divider-fancy span {
+    @apply px-4 text-neutral-400 dark:text-neutral-500;
+  }
+
+  /* Chip/tag interactivo */
+  .chip {
+    @apply inline-flex items-center gap-2 px-4 py-2 rounded-full;
+    @apply bg-petroleo-50 dark:bg-petroleo-950/50;
+    @apply text-petroleo-700 dark:text-petroleo-300;
+    @apply text-sm font-medium;
+    @apply transition-all duration-200;
+    @apply hover:bg-petroleo-100 dark:hover:bg-petroleo-900/50;
+    @apply cursor-pointer;
+  }
+
+  .chip-active {
+    @apply bg-petroleo text-white;
+    @apply hover:bg-petroleo-700;
+  }
+
+  /* Sección destacada con fondo decorativo */
+  .section-highlight {
+    @apply relative overflow-hidden;
+    @apply bg-gradient-to-br from-petroleo-50 via-white to-coral-50;
+    @apply dark:from-petroleo-950/30 dark:via-neutral-900 dark:to-coral-950/20;
+  }
+
+  .section-highlight::before {
+    content: '';
+    @apply absolute inset-0 opacity-30;
+    background-image:
+      radial-gradient(circle at 20% 50%, rgba(44, 95, 93, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 80% 50%, rgba(255, 107, 74, 0.1) 0%, transparent 50%);
+  }
+
+  /* Efecto hover para iconos */
+  .icon-hover {
+    @apply transition-all duration-300;
+  }
+
+  .icon-hover:hover {
+    @apply text-coral scale-110;
+  }
+
+  /* Lista con checkmarks estilizados */
+  .list-check li {
+    @apply relative pl-7 py-1;
+  }
+
+  .list-check li::before {
+    content: '';
+    @apply absolute left-0 top-2.5 w-5 h-5;
+    @apply bg-petroleo/10 dark:bg-petroleo/20 rounded-full;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%232C5F5D'%3E%3Cpath fill-rule='evenodd' d='M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z' clip-rule='evenodd'/%3E%3C/svg%3E");
+    background-size: 14px;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  /* Texto con gradiente */
+  .text-gradient {
+    background: linear-gradient(135deg, #2C5F5D 0%, #0f7569 50%, #FF6B4A 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .text-gradient-coral {
+    background: linear-gradient(135deg, #FF6B4A 0%, #FFB347 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
   }
 }

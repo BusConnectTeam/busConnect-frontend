@@ -18,8 +18,8 @@ function buildQueryString(filters: BusTypeFilters): string {
   if (filters.hasWifi !== undefined) {
     params.append('hasWifi', filters.hasWifi.toString());
   }
-  if (filters.hasAirConditioning !== undefined) {
-    params.append('hasAirConditioning', filters.hasAirConditioning.toString());
+  if (filters.hasAc !== undefined) {
+    params.append('hasAc', filters.hasAc.toString());
   }
   if (filters.hasToilet !== undefined) {
     params.append('hasToilet', filters.hasToilet.toString());

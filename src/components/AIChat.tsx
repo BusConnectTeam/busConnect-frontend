@@ -40,15 +40,21 @@ export default function AIChat() {
 
   // Actualizar mensaje de bienvenida cuando cambia el usuario
   useEffect(() => {
-    if (currentUser && messages.length === 1 && messages[0].id === 'welcome') {
-      setMessages([
-        {
-          ...INITIAL_MESSAGE,
-          content: `¡Hola ${currentUser.firstName}! 👋 Soy tu asistente de BusConnect. Puedo ayudarte a calcular rutas, buscar municipios y más. Escribe **"ayuda"** para ver todas las opciones.`,
-        },
-      ]);
+    if (currentUser) {
+      setMessages((prevMessages) => {
+        // Solo actualizar si es el mensaje inicial
+        if (prevMessages.length === 1 && prevMessages[0].id === 'welcome' && !prevMessages[0].content.includes(currentUser.firstName)) {
+          return [
+            {
+              ...INITIAL_MESSAGE,
+              content: `¡Hola ${currentUser.firstName}! 👋 Soy tu asistente de BusConnect. Puedo ayudarte a calcular rutas, buscar municipios y más. Escribe **"ayuda"** para ver todas las opciones.`,
+            },
+          ];
+        }
+        return prevMessages;
+      });
     }
-  }, [currentUser, messages]);
+  }, [currentUser]);
 
   const handleSend = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -122,7 +128,7 @@ export default function AIChat() {
                   🤖
                 </div>
                 <div className="flex-1">
-                  <h3 className="font-semibold">Asistente BusConnect</h3>
+                  <h3 className="font-semibold text-white">Asistente BusConnect</h3>
                   <p className="text-sm text-white/80">
                     {currentUser ? `Conectado como ${currentUser.firstName}` : 'Modo demo'}
                   </p>

@@ -148,16 +148,16 @@ export interface BusCompany {
   id: number;
   name: string;
   legalName: string;
-  taxId: string;
+  cif: string;
   email: string;
   phone: string;
   website: string | null;
   logoUrl: string | null;
   description: string | null;
-  address: string;
-  city: string;
-  postalCode: string;
-  country: string;
+  address: string | null;
+  city: string | null;
+  postalCode: string | null;
+  country?: string;
   foundedYear: number | null;
   active: boolean;
   verified: boolean;
@@ -166,9 +166,9 @@ export interface BusCompany {
 }
 
 export interface BusCompanyStats {
-  company: BusCompany;
-  totalBuses: number;
-  totalDrivers: number;
+  companyId: number;
+  busCount: number;
+  driverCount: number;
 }
 
 // Bus Type (from backend - different from frontend BusType)
@@ -182,11 +182,12 @@ export interface BusTypeEntity {
   capacity: number;
   seatType: SeatType;
   hasWifi: boolean;
-  hasAirConditioning: boolean;
+  hasAc: boolean;
   hasToilet: boolean;
-  hasUSBChargers: boolean;
-  hasEntertainment: boolean;
-  luggageCapacityKg: number;
+  hasUsbChargers: boolean;
+  hasWheelchairAccess: boolean;
+  hasLuggageCompartment: boolean;
+  hasEntertainmentSystem: boolean;
   imageUrl: string | null;
   pricePerKm: number;
   active: boolean;
@@ -199,7 +200,7 @@ export interface BusTypeFilters {
   maxCapacity?: number;
   seatType?: SeatType;
   hasWifi?: boolean;
-  hasAirConditioning?: boolean;
+  hasAc?: boolean;
   hasToilet?: boolean;
 }
 

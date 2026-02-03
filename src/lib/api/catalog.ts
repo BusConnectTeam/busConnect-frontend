@@ -9,15 +9,22 @@ import { apiClient } from './client';
 const BASE_PATH = '/api/routes';
 
 export interface CacheStats {
-  size: number;
-  hitRate: number;
-  missRate: number;
+  routeCacheSize: number;
+  routeHitCount: number;
+  routeMissCount: number;
+  routeHitRatePercent: number;
+  routeEvictionCount: number;
+  municipalityCacheSize: number;
+  municipalityHitCount: number;
+  municipalityMissCount: number;
 }
 
 export interface RateLimitStats {
-  remaining: number;
-  limit: number;
-  resetAt: string;
+  requestsLast24h: number;
+  maxRequestsPerDay: number;
+  remainingRequests: number;
+  totalRequestsAllTime: number;
+  usagePercentage: number;
 }
 
 export const catalogApi = {
