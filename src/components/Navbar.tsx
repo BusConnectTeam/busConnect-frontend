@@ -109,7 +109,7 @@ export default function Navbar() {
       role="banner"
     >
       <nav
-        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+        className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-6"
         role="navigation"
         aria-label="Navegación principal"
       >
@@ -137,12 +137,11 @@ export default function Navbar() {
 
           {/* Desktop Navigation */}
           <div
-            className="hidden md:flex items-center space-x-2"
+            className="hidden md:flex items-center space-x-2 ml-auto mr-3"
           >
             <NavLink href="/empresas">Empresas</NavLink>
-            <NavLink href="/como-funciona">Cómo funciona</NavLink>
+            <NavLink href="/equipo">Equipo</NavLink>
             <NavLink href="/blog">Blog</NavLink>
-            <NavLink href="/ayuda">Ayuda</NavLink>
           </div>
 
           {/* Desktop Actions */}
@@ -231,14 +230,11 @@ export default function Navbar() {
                   <MobileNavLink href="/empresas" onClick={closeMobileMenu}>
                     Empresas
                   </MobileNavLink>
-                  <MobileNavLink href="/como-funciona" onClick={closeMobileMenu}>
-                    Cómo funciona
+                  <MobileNavLink href="/equipo" onClick={closeMobileMenu}>
+                    Equipo
                   </MobileNavLink>
                   <MobileNavLink href="/blog" onClick={closeMobileMenu}>
                     Blog
-                  </MobileNavLink>
-                  <MobileNavLink href="/ayuda" onClick={closeMobileMenu}>
-                    Ayuda
                   </MobileNavLink>
 
                   <div

@@ -40,12 +40,12 @@ const getCompanyImage = (companyName: string): string | null => {
     'Transports Modernos SA': '/images/companies/transports-modernos-sa.png',
     'Catalunya Express': '/images/companies/autocares-express.png',
     'Autocares Cataluña Express': '/images/companies/autocares-express.png',
-    'Pirineus Bus': '/images/companies/autocares-barcelona-premium.png',
-    'Girona Viatges': '/images/companies/costa-brava-tours.png',
-    'Delta Ebre Transport': '/images/companies/transports-modernos-sa.png',
-    'Autocars Metropolitans': '/images/companies/autocares-express.png',
+    'Pirineus Bus': '/images/companies/pirineus-bus.png',
+    'Girona Viatges': '/images/companies/girona-viatges.png',
+    'Delta Ebre Transport': '/images/companies/delta-ebre-transport.png',
+    'Autocars Metropolitans': '/images/companies/autocars-metropolitans.png',
   };
-  
+
   return imageMap[companyName] || null;
 };
 
@@ -332,7 +332,7 @@ export default function EmpresasPage() {
       {/* SECCIÓN 3: Empresas Destacadas - Fondo CLARO con acento */}
       {!loading && !error && filteredCompanies.length > 0 && !hasFilters && (
         <section
-          className="py-16 bg-gradient-to-b from-white to-neutral-50 dark:from-neutral-800 dark:to-neutral-900"
+          className="pt-12 pb-6 md:pt-14 md:pb-8 bg-gradient-to-b from-white to-neutral-50 dark:from-neutral-800 dark:to-neutral-900"
           aria-labelledby="featured-title"
         >
           <div className="container-custom">
@@ -340,13 +340,13 @@ export default function EmpresasPage() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="text-center mb-12"
+              className="text-center mb-5"
             >
-              <div className="inline-flex items-center gap-2 bg-petroleo/10 dark:bg-petroleo/20 text-petroleo dark:text-petroleo-300 px-4 py-2 rounded-full text-sm font-medium mb-4">
+              <div className="inline-flex items-center gap-2 bg-emerald-500/10 dark:bg-emerald-500/20 text-accent-green dark:text-emerald-400 px-4 py-2 rounded-full text-sm font-medium mb-3">
                 <Sparkles className="w-4 h-4" aria-hidden="true" />
                 Lo mejor de Catalunya
               </div>
-              <h2 id="featured-title" className="text-3xl md:text-4xl font-bold text-neutral-900 dark:text-white mb-3">
+              <h2 id="featured-title" className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-primary to-primary-600 bg-clip-text text-transparent mb-2">
                 Empresas Destacadas
               </h2>
               <p className="text-neutral-600 dark:text-neutral-400 max-w-2xl mx-auto">
@@ -355,7 +355,7 @@ export default function EmpresasPage() {
             </motion.header>
 
             {/* Grid especial para empresas destacadas (verificadas) */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8 mt-2">
               {filteredCompanies
                 .filter((c) => c.verified)
                 .slice(0, 6)
@@ -377,7 +377,7 @@ export default function EmpresasPage() {
 
       {/* SECCIÓN 4: Listado de empresas - Fondo CLARO (neutral-50) */}
       <section
-        className="section bg-neutral-50 dark:bg-neutral-900"
+        className="pt-6 pb-16 md:pt-8 md:pb-20 bg-neutral-50 dark:bg-neutral-900"
         aria-labelledby="companies-title"
       >
         <div className="container-custom">
@@ -579,77 +579,85 @@ export default function EmpresasPage() {
                 </h3>
 
                 <ul className="space-y-6 list-none">
-                  <motion.li
-                    initial={{ opacity: 0, y: 10 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.4 }}
-                    className="flex items-start gap-4"
-                  >
-                    <div className="w-14 h-14 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center flex-shrink-0">
-                      <Users className="w-7 h-7 text-white" aria-hidden="true" />
-                    </div>
-                    <div>
-                      <h4 className="font-bold text-white text-lg mb-1">Alcance Masivo</h4>
-                      <p className="text-white/80 text-sm leading-relaxed">
-                        Miles de usuarios buscan servicios de transporte cada día en nuestra plataforma
-                      </p>
-                    </div>
-                  </motion.li>
+                  <li>
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: 0.4 }}
+                      className="flex items-start gap-4"
+                    >
+                      <div className="w-14 h-14 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center flex-shrink-0">
+                        <Users className="w-7 h-7 text-white" aria-hidden="true" />
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-white text-lg mb-1">Alcance Masivo</h4>
+                        <p className="text-white/80 text-sm leading-relaxed">
+                          Miles de usuarios buscan servicios de transporte cada día en nuestra plataforma
+                        </p>
+                      </div>
+                    </motion.div>
+                  </li>
 
-                  <motion.li
-                    initial={{ opacity: 0, y: 10 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.5 }}
-                    className="flex items-start gap-4"
-                  >
-                    <div className="w-14 h-14 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center flex-shrink-0">
-                      <Shield className="w-7 h-7 text-white" aria-hidden="true" />
-                    </div>
-                    <div>
-                      <h4 className="font-bold text-white text-lg mb-1">Verificación Premium</h4>
-                      <p className="text-white/80 text-sm leading-relaxed">
-                        Sello de confianza que aumenta la credibilidad y las conversiones
-                      </p>
-                    </div>
-                  </motion.li>
+                  <li>
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: 0.5 }}
+                      className="flex items-start gap-4"
+                    >
+                      <div className="w-14 h-14 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center flex-shrink-0">
+                        <Shield className="w-7 h-7 text-white" aria-hidden="true" />
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-white text-lg mb-1">Verificación Premium</h4>
+                        <p className="text-white/80 text-sm leading-relaxed">
+                          Sello de confianza que aumenta la credibilidad y las conversiones
+                        </p>
+                      </div>
+                    </motion.div>
+                  </li>
 
-                  <motion.li
-                    initial={{ opacity: 0, y: 10 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.6 }}
-                    className="flex items-start gap-4"
-                  >
-                    <div className="w-14 h-14 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center flex-shrink-0">
-                      <TrendingUp className="w-7 h-7 text-white" aria-hidden="true" />
-                    </div>
-                    <div>
-                      <h4 className="font-bold text-white text-lg mb-1">Análisis Detallados</h4>
-                      <p className="text-white/80 text-sm leading-relaxed">
-                        Herramientas profesionales para gestionar y optimizar tu negocio
-                      </p>
-                    </div>
-                  </motion.li>
+                  <li>
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: 0.6 }}
+                      className="flex items-start gap-4"
+                    >
+                      <div className="w-14 h-14 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center flex-shrink-0">
+                        <TrendingUp className="w-7 h-7 text-white" aria-hidden="true" />
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-white text-lg mb-1">Análisis Detallados</h4>
+                        <p className="text-white/80 text-sm leading-relaxed">
+                          Herramientas profesionales para gestionar y optimizar tu negocio
+                        </p>
+                      </div>
+                    </motion.div>
+                  </li>
 
-                  <motion.li
-                    initial={{ opacity: 0, y: 10 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.7 }}
-                    className="flex items-start gap-4"
-                  >
-                    <div className="w-14 h-14 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center flex-shrink-0">
-                      <Star className="w-7 h-7 text-white" aria-hidden="true" />
-                    </div>
-                    <div>
-                      <h4 className="font-bold text-white text-lg mb-1">Sin Comisiones</h4>
-                      <p className="text-white/80 text-sm leading-relaxed">
-                        Modelo transparente sin costes ocultos ni comisiones por reserva
-                      </p>
-                    </div>
-                  </motion.li>
+                  <li>
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: 0.7 }}
+                      className="flex items-start gap-4"
+                    >
+                      <div className="w-14 h-14 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center flex-shrink-0">
+                        <Star className="w-7 h-7 text-white" aria-hidden="true" />
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-white text-lg mb-1">Sin Comisiones</h4>
+                        <p className="text-white/80 text-sm leading-relaxed">
+                          Modelo transparente sin costes ocultos ni comisiones por reserva
+                        </p>
+                      </div>
+                    </motion.div>
+                  </li>
                 </ul>
               </motion.div>
             </div>
@@ -663,64 +671,57 @@ export default function EmpresasPage() {
 // Componente de tarjeta destacada (más compacta y elegante)
 function FeaturedCompanyCard({ company }: { company: CompanyWithStats }) {
   return (
-    <Link
-      href={`/empresas/${company.id}`}
-      className="group block relative bg-white dark:bg-neutral-800 rounded-2xl overflow-hidden border-2 border-petroleo/20 dark:border-petroleo/30 hover:border-petroleo dark:hover:border-petroleo transition-all duration-300 hover:shadow-2xl hover:shadow-petroleo/20 hover:-translate-y-2"
+    <div
+      className="group block relative bg-white dark:bg-neutral-800 rounded-2xl overflow-hidden border border-petroleo/30 dark:border-petroleo/40 hover:border-petroleo dark:hover:border-petroleo transition-all duration-300 hover:shadow-2xl hover:shadow-petroleo/20 hover:-translate-y-1"
     >
       {/* Badge verificada con estilo premium */}
-      <div className="absolute top-3 right-3 z-10 bg-gradient-to-r from-green-500 to-green-600 text-white px-3 py-1.5 rounded-full text-xs font-bold flex items-center gap-1.5 shadow-lg">
+      <div className="absolute top-4 right-4 z-10 bg-gradient-to-r from-green-500 to-green-600 text-white px-3 py-1.5 rounded-full text-xs font-bold flex items-center gap-1.5 shadow-lg">
         <Shield className="w-3.5 h-3.5" aria-hidden="true" />
         VERIFICADA
       </div>
 
       {/* Header con logo */}
-      <div className="relative h-40 overflow-hidden">
-        {/* Logo centrado */}
-        <div className="relative z-10 h-full flex items-center justify-center p-4">
-          {(getCompanyImage(company.name) || company.logoUrl) ? (
-            <div className="relative w-full h-full group-hover:scale-105 transition-transform duration-300">
-              <Image
-                src={getCompanyImage(company.name) || company.logoUrl || ''}
-                alt={`Logo de ${company.name}`}
-                fill
-                className="object-contain"
-                sizes="(max-width: 768px) 100vw, 200px"
-              />
-            </div>
-          ) : (
-            <div className="w-24 h-24 bg-neutral-100 dark:bg-neutral-700 rounded-2xl flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
-              <Building2 className="w-12 h-12 text-petroleo" aria-hidden="true" />
-            </div>
-          )}
-        </div>
+      <div className="relative h-56 bg-gradient-to-br from-petroleo/5 via-transparent to-coral/5 dark:from-petroleo/10 dark:to-coral/10 overflow-hidden">
+        {/* Logo que ocupa todo el espacio */}
+        {(getCompanyImage(company.name) || company.logoUrl) ? (
+          <div className="relative w-full h-full group-hover:scale-105 transition-transform duration-300">
+            <Image
+              src={getCompanyImage(company.name) || company.logoUrl || ''}
+              alt={`Logo de ${company.name}`}
+              fill
+              className="object-cover"
+              sizes="(max-width: 768px) 100vw, 200px"
+            />
+          </div>
+        ) : (
+          <div className="w-full h-full bg-neutral-100 dark:bg-neutral-700 flex items-center justify-center">
+            <Building2 className="w-12 h-12 text-petroleo" aria-hidden="true" />
+          </div>
+        )}
       </div>
 
       {/* Contenido */}
-      <div className="p-5">
-        <h3 className="font-bold text-lg text-neutral-900 dark:text-white mb-1 group-hover:text-petroleo dark:group-hover:text-petroleo-300 transition-colors line-clamp-1">
+      <div className="p-6">
+        <h3 className="font-bold text-xl text-neutral-900 dark:text-white mb-1 group-hover:text-petroleo dark:group-hover:text-petroleo-300 transition-colors line-clamp-1">
           {company.name}
         </h3>
         <p className="text-sm text-neutral-600 dark:text-neutral-400 mb-4 line-clamp-1">{company.legalName}</p>
 
         {/* Stats en línea */}
-        <div className="flex items-center justify-between gap-3 mb-4 pb-4 border-b border-neutral-200 dark:border-neutral-700">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-petroleo/10 dark:bg-petroleo/20 rounded-lg flex items-center justify-center">
+        <div className="grid grid-cols-2 gap-3 mb-5 pb-5 border-b border-neutral-200 dark:border-neutral-700">
+          <div className="bg-gradient-to-br from-petroleo/10 to-petroleo/5 dark:from-petroleo/20 dark:to-petroleo/10 rounded-xl p-3 text-center">
+            <div className="flex items-center justify-center gap-2 mb-1">
               <Bus className="w-4 h-4 text-petroleo" aria-hidden="true" />
-            </div>
-            <div>
               <p className="text-lg font-bold text-neutral-900 dark:text-white">{company.totalBuses ?? 0}</p>
-              <p className="text-xs text-neutral-600 dark:text-neutral-400">Buses</p>
             </div>
+            <p className="text-xs text-neutral-600 dark:text-neutral-400">Autocares</p>
           </div>
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-coral/10 dark:bg-coral/20 rounded-lg flex items-center justify-center">
+          <div className="bg-gradient-to-br from-coral/10 to-coral/5 dark:from-coral/20 dark:to-coral/10 rounded-xl p-3 text-center">
+            <div className="flex items-center justify-center gap-2 mb-1">
               <Users className="w-4 h-4 text-coral" aria-hidden="true" />
-            </div>
-            <div>
               <p className="text-lg font-bold text-neutral-900 dark:text-white">{company.totalDrivers ?? 0}</p>
-              <p className="text-xs text-neutral-600 dark:text-neutral-400">Conductores</p>
             </div>
+            <p className="text-xs text-neutral-600 dark:text-neutral-400">Conductores</p>
           </div>
         </div>
 
@@ -741,12 +742,12 @@ function FeaturedCompanyCard({ company }: { company: CompanyWithStats }) {
         </div>
 
         {/* CTA */}
-        <div className="flex items-center justify-between text-petroleo dark:text-petroleo-300 font-semibold text-sm group-hover:text-petroleo-600 dark:group-hover:text-petroleo-200 transition-colors">
-          <span>Ver detalles</span>
-          <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
+        <div className="flex items-center justify-between pt-4 border-t border-neutral-200 dark:border-neutral-700">
+          <span className="text-petroleo dark:text-petroleo-300 font-semibold text-sm group-hover:text-petroleo-600 dark:group-hover:text-petroleo-200 transition-colors">Ver detalles</span>
+          <ChevronRight className="w-5 h-5 text-petroleo dark:text-petroleo-300 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
         </div>
       </div>
-    </Link>
+    </div>
   );
 }
 
@@ -770,27 +771,25 @@ function CompanyCard({ company, index }: { company: CompanyWithStats; index: num
         </div>
       )}
 
-      <Link href={`/empresas/${company.id}`} className="block" aria-label={`Ver detalles de ${company.name}`}>
+      <div className="block">
         {/* Header con imagen/logo */}
-        <div className="relative h-52 overflow-hidden">
+        <div className="relative h-56 bg-gradient-to-br from-neutral-50 via-transparent to-neutral-50 dark:from-neutral-700/30 dark:to-neutral-700/30 overflow-hidden">
           {/* Logo o imagen de la empresa */}
-          <div className="relative z-10 h-full flex items-center justify-center p-4">
-            {(getCompanyImage(company.name) || company.logoUrl) ? (
-              <div className="relative w-full h-full">
-                <Image
-                  src={getCompanyImage(company.name) || company.logoUrl || ''}
-                  alt={`Logo de ${company.name}`}
-                  fill
-                  className="object-contain group-hover:scale-105 transition-transform duration-300"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                />
-              </div>
-            ) : (
-              <div className="w-32 h-32 bg-neutral-100 dark:bg-neutral-700 rounded-2xl flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
-                <Building2 className="w-16 h-16 text-petroleo" aria-hidden="true" />
-              </div>
-            )}
-          </div>
+          {(getCompanyImage(company.name) || company.logoUrl) ? (
+            <div className="relative w-full h-full">
+              <Image
+                src={getCompanyImage(company.name) || company.logoUrl || ''}
+                alt={`Logo de ${company.name}`}
+                fill
+                className="object-cover group-hover:scale-105 transition-transform duration-300"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              />
+            </div>
+          ) : (
+            <div className="w-full h-full bg-neutral-100 dark:bg-neutral-700 flex items-center justify-center">
+              <Building2 className="w-16 h-16 text-petroleo" aria-hidden="true" />
+            </div>
+          )}
         </div>
 
         {/* Contenido de la tarjeta */}
@@ -869,7 +868,7 @@ function CompanyCard({ company, index }: { company: CompanyWithStats; index: num
             </span>
           </footer>
         </div>
-      </Link>
+      </div>
     </motion.article>
   );
 }

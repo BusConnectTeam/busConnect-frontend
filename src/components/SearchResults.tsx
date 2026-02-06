@@ -41,10 +41,10 @@ const seatTypeLabels: Record<string, string> = {
 };
 
 const seatTypeColors: Record<string, string> = {
-  standard: 'bg-neutral-100 text-neutral-700',
-  premium: 'bg-blue-100 text-blue-700',
-  vip: 'bg-amber-100 text-amber-700',
-  sleeper: 'bg-purple-100 text-purple-700',
+  standard: 'bg-petroleo-50 text-petroleo-700 dark:bg-petroleo-950/50 dark:text-petroleo-300',
+  premium: 'bg-coral-50 text-coral-700 dark:bg-coral-950/50 dark:text-coral-300',
+  vip: 'bg-gradient-to-r from-petroleo-500 to-coral-500 text-white shadow-lg',
+  sleeper: 'bg-petroleo-100 text-petroleo-800 dark:bg-petroleo-900/50 dark:text-petroleo-200',
 };
 
 export default function SearchResults({
@@ -146,10 +146,11 @@ export default function SearchResults({
         animate={{ opacity: 1 }}
         className="mt-6"
       >
-        <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-8">
+        <div className="glass-container p-8">
           <div className="flex flex-col items-center justify-center">
-            <Loader2 className="w-8 h-8 animate-spin text-coral mb-3" />
-            <span className="text-white/80">Buscando buses disponibles...</span>
+            <Loader2 className="w-10 h-10 animate-spin text-coral mb-4" />
+            <span className="text-white text-lg font-medium">Buscando buses disponibles...</span>
+            <span className="text-white/60 text-sm mt-2">Estamos consultando las mejores opciones para ti</span>
           </div>
         </div>
       </motion.div>
@@ -163,17 +164,20 @@ export default function SearchResults({
         animate={{ opacity: 1 }}
         className="mt-6"
       >
-        <div className="bg-white/10 backdrop-blur-sm border border-red-400/50 rounded-xl p-6">
-          <div className="flex items-center gap-3">
-            <AlertCircle className="w-6 h-6 text-red-400" />
-            <p className="text-white/80">{error}</p>
+        <div className="glass-container p-8 border-coral/30">
+          <div className="flex flex-col items-center text-center">
+            <div className="w-16 h-16 rounded-full bg-coral/20 flex items-center justify-center mb-4">
+              <AlertCircle className="w-8 h-8 text-coral" />
+            </div>
+            <p className="text-white text-lg font-medium mb-2">Ups, algo salió mal</p>
+            <p className="text-white/70 mb-6">{error}</p>
+            <button
+              onClick={loadData}
+              className="btn-cta"
+            >
+              Reintentar búsqueda
+            </button>
           </div>
-          <button
-            onClick={loadData}
-            className="mt-4 px-4 py-2 bg-white/20 hover:bg-white/30 text-white rounded-lg transition-colors"
-          >
-            Reintentar
-          </button>
         </div>
       </motion.div>
     );
@@ -186,29 +190,42 @@ export default function SearchResults({
       className="mt-6"
     >
       {/* Header con info de ruta */}
-      <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-4 mb-4">
-        <div className="flex flex-wrap items-center justify-between gap-4">
-          <div className="flex items-center gap-6">
-            <div className="flex items-center gap-2">
-              <MapPin className="w-5 h-5 text-coral" />
-              <span className="text-white font-medium">
-                {routeResult.origin} → {routeResult.destination}
-              </span>
+      <div className="glass-container p-6 mb-6 animate-fade-in">
+        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+          {/* Ruta principal */}
+          <div className="flex items-center gap-3">
+            <div className="w-12 h-12 rounded-xl bg-coral/20 flex items-center justify-center flex-shrink-0">
+              <MapPin className="w-6 h-6 text-coral" />
             </div>
-            <div className="flex items-center gap-4 text-white/70 text-sm">
-              <span>{routeResult.distanceKm.toFixed(0)} km</span>
-              <span className="flex items-center gap-1">
-                <Clock className="w-4 h-4" />
-                {formatDuration(routeResult.durationMinutes)}
-              </span>
+            <div>
+              <h2 className="text-white text-xl font-bold">
+                {routeResult.origin} → {routeResult.destination}
+              </h2>
+              <div className="flex items-center gap-3 text-white/60 text-sm mt-1">
+                <span className="font-medium">{routeResult.distanceKm.toFixed(0)} km</span>
+                <span className="w-1 h-1 rounded-full bg-white/40"></span>
+                <span className="flex items-center gap-1">
+                  <Clock className="w-3.5 h-3.5" />
+                  {formatDuration(routeResult.durationMinutes)}
+                </span>
+              </div>
             </div>
           </div>
-          <div className="flex items-center gap-4 text-white/70 text-sm">
-            <span>{formatDate(date)}</span>
-            <span className="flex items-center gap-1">
-              <Users className="w-4 h-4" />
-              {passengers} pasajeros
-            </span>
+
+          {/* Info adicional */}
+          <div className="flex items-center gap-4 text-white/80">
+            <div className="text-right">
+              <p className="text-xs text-white/50 uppercase tracking-wide">Fecha</p>
+              <p className="font-medium">{formatDate(date)}</p>
+            </div>
+            <div className="w-px h-10 bg-white/20"></div>
+            <div className="text-right">
+              <p className="text-xs text-white/50 uppercase tracking-wide">Pasajeros</p>
+              <p className="font-medium flex items-center gap-1.5">
+                <Users className="w-4 h-4" />
+                {passengers}
+              </p>
+            </div>
           </div>
         </div>
       </div>
@@ -217,32 +234,42 @@ export default function SearchResults({
       {buses.length > 0 ? (
         <div>
           {/* Header con contador y paginación */}
-          <div className="flex items-center justify-between mb-4">
-            <p className="text-white/60 text-sm">
-              {buses.length} bus{buses.length !== 1 ? 'es' : ''} disponible{buses.length !== 1 ? 's' : ''}
-            </p>
-            
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-lg bg-coral/20 flex items-center justify-center">
+                <Bus className="w-5 h-5 text-coral" />
+              </div>
+              <div>
+                <p className="text-white font-semibold text-lg">
+                  {buses.length} bus{buses.length !== 1 ? 'es' : ''}
+                </p>
+                <p className="text-white/50 text-xs">Disponibles para tu ruta</p>
+              </div>
+            </div>
+
             {totalPages > 1 && (
               <div className="flex items-center gap-2">
                 <button
                   onClick={goToPreviousPage}
                   disabled={currentPage === 1}
-                  className="p-2 rounded-lg bg-white/10 hover:bg-white/20 text-white
-                           disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                  className="p-2.5 rounded-lg glass-container hover:border-coral/50 text-white
+                           disabled:opacity-30 disabled:cursor-not-allowed transition-all
+                           hover:scale-105 disabled:hover:scale-100"
                   aria-label="Página anterior"
                 >
                   <ChevronLeft className="w-5 h-5" />
                 </button>
-                
-                <span className="text-white/70 text-sm px-3">
+
+                <span className="text-white font-medium text-sm px-4 py-2 rounded-lg glass-container">
                   {currentPage} / {totalPages}
                 </span>
-                
+
                 <button
                   onClick={goToNextPage}
                   disabled={currentPage === totalPages}
-                  className="p-2 rounded-lg bg-white/10 hover:bg-white/20 text-white
-                           disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                  className="p-2.5 rounded-lg glass-container hover:border-coral/50 text-white
+                           disabled:opacity-30 disabled:cursor-not-allowed transition-all
+                           hover:scale-105 disabled:hover:scale-100"
                   aria-label="Página siguiente"
                 >
                   <ChevronRight className="w-5 h-5" />
@@ -259,28 +286,30 @@ export default function SearchResults({
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -20 }}
               transition={{ duration: 0.3 }}
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"
             >
-              {currentBuses.map((bus) => (
+              {currentBuses.map((bus, index) => (
                 <motion.div
                   key={bus.id}
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-4
-                           hover:bg-white/15 hover:border-white/30 transition-all cursor-pointer group
-                           flex flex-col h-full"
+                  transition={{ delay: index * 0.05 }}
+                  className="card-shine glass-container p-5 cursor-pointer group
+                           flex flex-col h-full hover:border-coral/50 transition-all duration-300
+                           hover:-translate-y-1 hover:shadow-2xl hover:shadow-coral/20"
                   onClick={() => bus.company && onSelectBus?.(bus, bus.company, bus.estimatedPrice)}
                 >
-                  {/* Header de la card */}
-                  <div className="flex items-start gap-3 mb-3">
-                    <div className="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center flex-shrink-0">
-                      <Bus className="w-5 h-5 text-coral" />
+                  {/* Header de la card con icono más grande */}
+                  <div className="flex items-start gap-4 mb-4">
+                    <div className="w-14 h-14 rounded-xl gradient-coral flex items-center justify-center
+                                  flex-shrink-0 shadow-lg shadow-coral/30 group-hover:scale-110 transition-transform">
+                      <Bus className="w-7 h-7 text-white" />
                     </div>
-                    
+
                     <div className="flex-1 min-w-0">
-                      <h3 className="font-semibold text-white text-sm truncate">{bus.name}</h3>
+                      <h3 className="font-bold text-white text-base truncate mb-2">{bus.name}</h3>
                       <span
-                        className={`inline-block px-2 py-0.5 rounded-full text-xs font-medium mt-1 ${
+                        className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold ${
                           seatTypeColors[bus.seatType] || seatTypeColors.standard
                         }`}
                       >
@@ -289,47 +318,68 @@ export default function SearchResults({
                     </div>
                   </div>
 
-                  {/* Empresa */}
+                  {/* Empresa con badge verificado mejorado */}
                   {bus.company && (
-                    <div className="flex items-center gap-2 mb-3">
-                      <Building2 className="w-4 h-4 text-white/50" />
-                      <span className="text-white/70 text-xs truncate">{bus.company.name}</span>
+                    <div className="flex items-center gap-2 mb-4 pb-4 border-b border-white/10">
+                      <Building2 className="w-4 h-4 text-white/60" />
+                      <span className="text-white/90 text-sm truncate font-medium">{bus.company.name}</span>
                       {bus.company.verified && (
-                        <CheckCircle className="w-3.5 h-3.5 text-green-400 flex-shrink-0" />
+                        <span className="badge-verified ml-auto">
+                          <CheckCircle className="w-3 h-3" />
+                          <span className="text-xs">Verificada</span>
+                        </span>
                       )}
                     </div>
                   )}
 
-                  {/* Amenities */}
-                  <div className="flex items-center gap-2 flex-wrap mb-3">
-                    <span className="flex items-center gap-1 text-white/60 text-xs">
-                      <Users className="w-3.5 h-3.5" />
-                      {bus.capacity}
-                    </span>
-                    {bus.hasWifi && <Wifi className="w-3.5 h-3.5 text-white/60" />}
-                    {bus.hasAc && <Wind className="w-3.5 h-3.5 text-white/60" />}
-                    {bus.hasToilet && (
-                      <span className="text-white/60 text-xs">WC</span>
+                  {/* Amenities con mejor espaciado */}
+                  <div className="flex items-center gap-3 flex-wrap mb-4">
+                    <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-white/5 text-white/80">
+                      <Users className="w-4 h-4" />
+                      <span className="text-xs font-medium">{bus.capacity}</span>
+                    </div>
+                    {bus.hasWifi && (
+                      <div className="p-1.5 rounded-lg bg-white/5 text-white/80 hover:bg-white/10 transition-colors">
+                        <Wifi className="w-4 h-4" aria-label="WiFi" />
+                      </div>
                     )}
-                    {bus.hasUsbChargers && <Plug className="w-3.5 h-3.5 text-white/60" />}
-                    {bus.hasEntertainmentSystem && <Tv className="w-3.5 h-3.5 text-white/60" />}
+                    {bus.hasAc && (
+                      <div className="p-1.5 rounded-lg bg-white/5 text-white/80 hover:bg-white/10 transition-colors">
+                        <Wind className="w-4 h-4" aria-label="Aire acondicionado" />
+                      </div>
+                    )}
+                    {bus.hasToilet && (
+                      <div className="px-2 py-1 rounded-lg bg-white/5 text-white/80 hover:bg-white/10 transition-colors">
+                        <span className="text-xs font-medium">WC</span>
+                      </div>
+                    )}
+                    {bus.hasUsbChargers && (
+                      <div className="p-1.5 rounded-lg bg-white/5 text-white/80 hover:bg-white/10 transition-colors">
+                        <Plug className="w-4 h-4" aria-label="Cargadores USB" />
+                      </div>
+                    )}
+                    {bus.hasEntertainmentSystem && (
+                      <div className="p-1.5 rounded-lg bg-white/5 text-white/80 hover:bg-white/10 transition-colors">
+                        <Tv className="w-4 h-4" aria-label="Sistema de entretenimiento" />
+                      </div>
+                    )}
                   </div>
 
-                  {/* Precio y botón */}
-                  <div className="mt-auto pt-3 border-t border-white/10">
-                    <div className="flex items-center justify-between">
+                  {/* Precio y botón mejorado */}
+                  <div className="mt-auto pt-4 border-t border-white/10">
+                    <div className="flex items-end justify-between gap-3">
                       <div>
-                        <p className="text-xl font-bold text-white">
+                        <p className="text-white/60 text-xs mb-1">Precio estimado</p>
+                        <p className="text-2xl font-bold text-white mb-0.5">
                           ~{bus.estimatedPrice.toFixed(0)}€
                         </p>
-                        <p className="text-white/50 text-xs">
+                        <p className="text-white/40 text-xs">
                           {bus.pricePerKm.toFixed(2)}€/km
                         </p>
                       </div>
                       <button
-                        className="px-3 py-1.5 bg-coral hover:bg-coral-600
-                                   text-white text-sm rounded-lg font-medium transition-colors
-                                   group-hover:bg-coral-500 flex items-center gap-1"
+                        className="btn-cta px-4 py-2.5 text-sm whitespace-nowrap
+                                 flex items-center gap-1.5 group-hover:scale-105 transition-transform"
                       >
                         Solicitar
                         <ChevronRight className="w-4 h-4" />
@@ -343,15 +393,15 @@ export default function SearchResults({
 
           {/* Indicadores de página (puntos) */}
           {totalPages > 1 && (
-            <div className="flex justify-center items-center gap-2 mt-6">
+            <div className="flex justify-center items-center gap-2 mt-8">
               {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
                 <button
                   key={page}
                   onClick={() => setCurrentPage(page)}
-                  className={`w-2 h-2 rounded-full transition-all ${
+                  className={`rounded-full transition-all duration-300 ${
                     page === currentPage
-                      ? 'bg-coral w-6'
-                      : 'bg-white/30 hover:bg-white/50'
+                      ? 'bg-coral w-8 h-2 shadow-lg shadow-coral/50'
+                      : 'bg-white/30 hover:bg-white/50 w-2 h-2 hover:scale-125'
                   }`}
                   aria-label={`Ir a página ${page}`}
                 />
@@ -360,15 +410,23 @@ export default function SearchResults({
           )}
         </div>
       ) : (
-        <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-8">
-          <div className="text-center">
-            <Bus className="w-12 h-12 text-white/30 mx-auto mb-3" />
-            <p className="text-white/70">
-              No hay buses disponibles con capacidad para {passengers} pasajeros.
+        <div className="glass-container p-12">
+          <div className="text-center max-w-md mx-auto">
+            <div className="w-20 h-20 rounded-2xl bg-white/10 flex items-center justify-center mx-auto mb-6">
+              <Bus className="w-10 h-10 text-white/40" />
+            </div>
+            <h3 className="text-white text-xl font-bold mb-3">
+              No hay buses disponibles
+            </h3>
+            <p className="text-white/70 mb-2">
+              No encontramos buses con capacidad para {passengers} pasajeros en esta ruta.
             </p>
-            <p className="text-white/50 text-sm mt-1">
+            <p className="text-white/50 text-sm mb-6">
               Intenta reducir el número de pasajeros o contacta con nosotros para opciones personalizadas.
             </p>
+            <button className="btn-secondary">
+              Contactar con soporte
+            </button>
           </div>
         </div>
       )}
