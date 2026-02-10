@@ -2,6 +2,7 @@
 export { apiClient, ApiException, API_URL } from './client';
 
 // Services
+export { authApi } from './auth';
 export { usersApi } from './users';
 export { catalogApi } from './catalog';
 export { companiesApi } from './companies';

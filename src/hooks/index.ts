@@ -1,3 +1,10 @@
+// Auth hooks
+export {
+  useLogin,
+  useRegister,
+  useMe,
+} from './useAuth';
+
 // Users hooks
 export {
   useUsers,

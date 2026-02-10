@@ -1,10 +1,12 @@
 'use client';
 
+import { useAuth } from '@/contexts/AuthContext';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Bus, Globe, Menu, X } from 'lucide-react';
+import { Bus, Globe, LogIn, LogOut, Menu, UserPlus, X } from 'lucide-react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import UserSelector from './UserSelector';
+import UserMenu from './UserMenu';
 
 interface NavLinkProps {
   href: string;
@@ -53,6 +55,8 @@ export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
+  const { isAuthenticated, logout } = useAuth();
+  const router = useRouter();
 
   const closeMobileMenu = useCallback(() => {
     setMobileMenuOpen(false);
@@ -102,6 +106,12 @@ export default function Navbar() {
       return () => document.removeEventListener('keydown', handleTabKey);
     }
   }, [mobileMenuOpen]);
+
+  const handleMobileLogout = () => {
+    logout();
+    closeMobileMenu();
+    router.push('/');
+  };
 
   return (
     <header
@@ -160,21 +170,38 @@ export default function Navbar() {
               <span className="sr-only">Idioma</span>
             </button>
 
-            <UserSelector />
+            {isAuthenticated ? (
+              <UserMenu />
+            ) : (
+              <>
+                <Link
+                  href="/login"
+                  className="flex items-center gap-2 text-white/90 hover:text-white
+                             transition-colors duration-200 px-3 py-2 min-h-touch
+                             focus-visible:outline-none focus-visible:ring-2
+                             focus-visible:ring-white/50 focus-visible:ring-offset-2
+                             focus-visible:ring-offset-petroleo rounded-lg"
+                >
+                  <LogIn className="w-5 h-5" aria-hidden="true" />
+                  <span className="hidden lg:inline">Entrar</span>
+                </Link>
 
-            <Link
-              href="/registro-empresa"
-              className="bg-white/20 backdrop-blur-md hover:bg-white/30
-                         text-white font-medium
-                         px-6 py-2.5 rounded-lg transition-all duration-200
-                         border border-white/30
-                         min-h-touch flex items-center
-                         focus-visible:outline-none focus-visible:ring-2
-                         focus-visible:ring-white/50 focus-visible:ring-offset-2
-                         focus-visible:ring-offset-petroleo"
-            >
-              Registrar empresa
-            </Link>
+                <Link
+                  href="/registro"
+                  className="bg-white/20 backdrop-blur-md hover:bg-white/30
+                             text-white font-medium
+                             px-6 py-2.5 rounded-lg transition-all duration-200
+                             border border-white/30
+                             min-h-touch flex items-center gap-2
+                             focus-visible:outline-none focus-visible:ring-2
+                             focus-visible:ring-white/50 focus-visible:ring-offset-2
+                             focus-visible:ring-offset-petroleo"
+                >
+                  <UserPlus className="w-4 h-4" aria-hidden="true" />
+                  Crear cuenta
+                </Link>
+              </>
+            )}
           </div>
 
           {/* Mobile menu button */}
@@ -241,34 +268,69 @@ export default function Navbar() {
                     className="mt-4 pt-4 px-4 border-t border-neutral-200 dark:border-neutral-700
                                flex flex-col space-y-3"
                   >
-                    <Link
-                      href="/login"
-                      onClick={closeMobileMenu}
-                      className="w-full text-center py-3 px-4
-                                 border border-petroleo text-petroleo dark:text-white
-                                 dark:border-white/20 rounded-lg font-medium
-                                 hover:bg-petroleo/5 dark:hover:bg-white/5
-                                 transition-colors min-h-touch flex items-center justify-center
-                                 focus-visible:outline-none focus-visible:ring-2
-                                 focus-visible:ring-petroleo/50"
-                    >
-                      Entrar
-                    </Link>
-                    <Link
-                      href="/registro-empresa"
-                      onClick={closeMobileMenu}
-                      className="w-full text-center py-3 px-4
-                                 bg-petroleo/10 hover:bg-petroleo/20 text-petroleo
-                                 dark:bg-white/10 dark:hover:bg-white/20 dark:text-white
-                                 border border-petroleo/20 dark:border-white/20
-                                 rounded-lg font-medium transition-all
-                                 backdrop-blur-sm
-                                 min-h-touch flex items-center justify-center
-                                 focus-visible:outline-none focus-visible:ring-2
-                                 focus-visible:ring-petroleo/50"
-                    >
-                      Registrar empresa
-                    </Link>
+                    {isAuthenticated ? (
+                      <>
+                        <Link
+                          href="/perfil"
+                          onClick={closeMobileMenu}
+                          className="w-full text-center py-3 px-4
+                                     border border-petroleo text-petroleo dark:text-white
+                                     dark:border-white/20 rounded-lg font-medium
+                                     hover:bg-petroleo/5 dark:hover:bg-white/5
+                                     transition-colors min-h-touch flex items-center justify-center
+                                     focus-visible:outline-none focus-visible:ring-2
+                                     focus-visible:ring-petroleo/50"
+                        >
+                          Mi perfil
+                        </Link>
+                        <button
+                          type="button"
+                          onClick={handleMobileLogout}
+                          className="w-full text-center py-3 px-4
+                                     border border-red-200 dark:border-red-800
+                                     text-red-600 dark:text-red-400
+                                     rounded-lg font-medium
+                                     hover:bg-red-50 dark:hover:bg-red-950/20
+                                     transition-colors min-h-touch flex items-center justify-center gap-2
+                                     focus-visible:outline-none focus-visible:ring-2
+                                     focus-visible:ring-red-500/50"
+                        >
+                          <LogOut className="w-4 h-4" />
+                          Cerrar sesión
+                        </button>
+                      </>
+                    ) : (
+                      <>
+                        <Link
+                          href="/login"
+                          onClick={closeMobileMenu}
+                          className="w-full text-center py-3 px-4
+                                     border border-petroleo text-petroleo dark:text-white
+                                     dark:border-white/20 rounded-lg font-medium
+                                     hover:bg-petroleo/5 dark:hover:bg-white/5
+                                     transition-colors min-h-touch flex items-center justify-center
+                                     focus-visible:outline-none focus-visible:ring-2
+                                     focus-visible:ring-petroleo/50"
+                        >
+                          Entrar
+                        </Link>
+                        <Link
+                          href="/registro"
+                          onClick={closeMobileMenu}
+                          className="w-full text-center py-3 px-4
+                                     bg-petroleo/10 hover:bg-petroleo/20 text-petroleo
+                                     dark:bg-white/10 dark:hover:bg-white/20 dark:text-white
+                                     border border-petroleo/20 dark:border-white/20
+                                     rounded-lg font-medium transition-all
+                                     backdrop-blur-sm
+                                     min-h-touch flex items-center justify-center
+                                     focus-visible:outline-none focus-visible:ring-2
+                                     focus-visible:ring-petroleo/50"
+                        >
+                          Crear cuenta
+                        </Link>
+                      </>
+                    )}
                   </div>
                 </div>
               </motion.div>

@@ -231,3 +231,32 @@ export interface DriverFilters {
   language?: string;
   name?: string;
 }
+
+// ============================================
+// AUTH TYPES
+// ============================================
+
+export interface LoginRequest {
+  email: string;
+  password: string;
+}
+
+export interface RegisterRequest {
+  email: string;
+  firstName: string;
+  lastName: string;
+  phone?: string;
+  password: string;
+  role: 'CUSTOMER';
+}
+
+export interface AuthResponse {
+  token: string;
+  tokenType: 'Bearer';
+  email: string;
+  firstName: string;
+  lastName: string;
+  role: UserRole;
+  issuedAt: string;
+  expiresAt: string;
+}

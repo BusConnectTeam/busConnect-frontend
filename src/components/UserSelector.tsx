@@ -84,8 +84,6 @@ export default function UserSelector() {
                    focus-visible:outline-none focus-visible:ring-2
                    focus-visible:ring-white/50 focus-visible:ring-offset-2
                    focus-visible:ring-offset-petroleo rounded-lg"
-        aria-expanded={isOpen}
-        aria-haspopup="listbox"
       >
         {currentUser ? (
           <>
@@ -117,7 +115,6 @@ export default function UserSelector() {
             className="absolute right-0 mt-2 w-72 bg-white dark:bg-neutral-800
                        rounded-xl shadow-xl border border-neutral-200 dark:border-neutral-700
                        overflow-hidden z-50"
-            role="listbox"
           >
             {/* Header */}
             <div className="px-4 py-3 bg-neutral-50 dark:bg-neutral-900 border-b border-neutral-200 dark:border-neutral-700">
@@ -151,9 +148,10 @@ export default function UserSelector() {
                   </button>
                 </div>
               ) : groupedUsers ? (
-                Object.entries(groupedUsers).map(([role, roleUsers]) => (
-                  <div key={role}>
-                    <div className="px-4 py-2 bg-neutral-100 dark:bg-neutral-700/50">
+                <div>
+                  {Object.entries(groupedUsers).map(([role, roleUsers]) => (
+                    <div key={role}>
+                      <div className="px-4 py-2 bg-neutral-100 dark:bg-neutral-700/50">
                       <span className="text-xs font-semibold text-neutral-500 dark:text-neutral-400 uppercase tracking-wider">
                         {roleLabels[role as UserRole]}s
                       </span>
@@ -167,8 +165,6 @@ export default function UserSelector() {
                                    hover:bg-neutral-100 dark:hover:bg-neutral-700/50
                                    transition-colors text-left
                                    ${currentUser?.id === user.id ? 'bg-petroleo/10 dark:bg-petroleo/20' : ''}`}
-                        role="option"
-                        aria-selected={currentUser?.id === user.id}
                       >
                         <span
                           className={`p-2 rounded-lg ${
@@ -194,8 +190,9 @@ export default function UserSelector() {
                         )}
                       </button>
                     ))}
-                  </div>
-                ))
+                    </div>
+                  ))}
+                </div>
               ) : (
                 <div className="px-4 py-8 text-center">
                   <p className="text-sm text-neutral-500">No se pudieron cargar los usuarios</p>

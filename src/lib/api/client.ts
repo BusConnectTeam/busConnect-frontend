@@ -1,6 +1,45 @@
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
 
+const TOKEN_KEY = 'busconnect_auth_token';
+
+const PUBLIC_ENDPOINTS = [
+  '/api/users/auth/login',
+  '/api/users/auth/register',
+];
+
+function isPublicEndpoint(endpoint: string): boolean {
+  return PUBLIC_ENDPOINTS.some((pub) => endpoint.startsWith(pub));
+}
+
+export function getStoredToken(): string | null {
+  if (typeof window === 'undefined') return null;
+  return localStorage.getItem(TOKEN_KEY);
+}
+
+export function setStoredToken(token: string): void {
+  localStorage.setItem(TOKEN_KEY, token);
+}
+
+export function removeStoredToken(): void {
+  localStorage.removeItem(TOKEN_KEY);
+}
+
+function getHeaders(endpoint: string): Record<string, string> {
+  const headers: Record<string, string> = {
+    'Content-Type': 'application/json',
+  };
+
+  if (!isPublicEndpoint(endpoint)) {
+    const token = getStoredToken();
+    if (token) {
+      headers['Authorization'] = `Bearer ${token}`;
+    }
+  }
+
+  return headers;
+}
+
 export class ApiException extends Error {
   constructor(
     public status: number,
@@ -15,6 +54,7 @@ export class ApiException extends Error {
 function getErrorMessage(status: number, defaultMessage?: string): string {
   const messages: Record<number, string> = {
     400: 'Datos inválidos',
+    401: 'Credenciales inválidas o sesión expirada',
     404: 'Recurso no encontrado',
     409: 'Conflicto: el recurso ya existe',
     429: 'Límite de peticiones excedido (2000/día)',
@@ -66,6 +106,14 @@ export function getFriendlyErrorMessage(error: unknown): string {
 
 async function handleResponse<T>(response: Response): Promise<T> {
   if (!response.ok) {
+    if (response.status === 401) {
+      removeStoredToken();
+      localStorage.removeItem('busconnect_current_user');
+      if (typeof window !== 'undefined' && !window.location.pathname.startsWith('/login')) {
+        window.location.href = '/login';
+      }
+    }
+
     let errorMessage: string | undefined;
 
     try {
@@ -93,9 +141,7 @@ export const apiClient = {
   get: async <T>(endpoint: string): Promise<T> => {
     const response = await fetch(`${API_URL}${endpoint}`, {
       method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: getHeaders(endpoint),
     });
     return handleResponse<T>(response);
   },
@@ -103,9 +149,7 @@ export const apiClient = {
   post: async <T, B = unknown>(endpoint: string, body?: B): Promise<T> => {
     const response = await fetch(`${API_URL}${endpoint}`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: getHeaders(endpoint),
       body: body ? JSON.stringify(body) : undefined,
     });
     return handleResponse<T>(response);
@@ -114,9 +158,7 @@ export const apiClient = {
   put: async <T, B = unknown>(endpoint: string, body?: B): Promise<T> => {
     const response = await fetch(`${API_URL}${endpoint}`, {
       method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: getHeaders(endpoint),
       body: body ? JSON.stringify(body) : undefined,
     });
     return handleResponse<T>(response);
@@ -125,9 +167,7 @@ export const apiClient = {
   delete: async <T>(endpoint: string): Promise<T> => {
     const response = await fetch(`${API_URL}${endpoint}`, {
       method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: getHeaders(endpoint),
     });
     return handleResponse<T>(response);
   },
