@@ -1,12 +1,13 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Box, Code, Database, Layers, Linkedin, Mail, Server, Sparkles } from 'lucide-react';
+import { Box, Code, Database, Globe, Layers, Linkedin, Mail, Server, Sparkles, User } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
 interface TeamMember {
   name: string;
+  slug: string;
   role: string;
   description: string;
   quote: string;
@@ -19,33 +20,36 @@ interface TeamMember {
 const teamMembers: TeamMember[] = [
   {
     name: 'Irina',
+    slug: 'irina',
     role: 'Full Stack Developer & Co-fundadora',
     description: 'Apasionada por crear soluciones tecnológicas innovadoras. Con experiencia tanto en frontend como backend, lidera el desarrollo técnico de BusConnect.',
     quote: 'La tecnología debe simplificar la vida de las personas, no complicarla.',
     expertise: ['React & Next.js', 'TypeScript', 'Java & Spring Boot', 'API REST', 'Microservicios', 'Programación Reactiva', 'Eureka Service', 'API Gateway', 'OpenRoute API', 'Docker', 'CI/CD'],
-    image: '/images/team/irina.jpg',
-    email: 'irina@busconnect.es',
-    linkedin: 'https://www.linkedin.com/in/irina-ejemplo',
+    image: '/images/team/Irina-Ichim.jpg',
+    email: 'onlyirina7@gmail.com',
+    linkedin: 'https://www.linkedin.com/in/irina-ichim-desarrolladora/',
   },
   {
     name: 'Gabriela',
+    slug: 'gabriela',
     role: 'Backend Developer & Co-fundadora',
     description: 'Experta en arquitectura de microservicios y programación reactiva. Construye sistemas robustos y escalables que potencian BusConnect.',
     quote: 'El código limpio es el reflejo de un pensamiento claro.',
     expertise: ['API REST', 'Java & Spring Boot', 'Microservicios', 'Programación Reactiva', 'Eureka Service', 'API Gateway', 'OpenRoute API', 'Docker', 'CI/CD'],
-    image: '/images/team/gabriela.jpg',
-    email: 'gabriela@busconnect.es',
-    linkedin: 'https://www.linkedin.com/in/gabriela-ejemplo',
+    image: '/images/team/Gabriela.jpg',
+    email: 'geb.beg.73@gmail.com',
+    linkedin: 'https://www.linkedin.com/in/gabriela-bustamante-/',
   },
   {
     name: 'Ainoha',
+    slug: 'ainoha',
     role: 'Backend Developer & Co-fundadora',
     description: 'Especializada en desarrollo backend y programación reactiva. Garantiza la fiabilidad y rendimiento de los sistemas de BusConnect.',
     quote: 'La excelencia técnica es un viaje, no un destino.',
     expertise: ['Java', 'Spring Boot', 'Maven', 'Docker'],
-    image: '/images/team/ainoha.jpg',
-    email: 'ainoha@busconnect.es',
-    linkedin: 'https://www.linkedin.com/in/ainoha-ejemplo',
+    image: '/images/team/Ainoha.png',
+    email: 'ainoha.barcia@gmail.com',
+    linkedin: 'https://www.linkedin.com/in/ainoha-barcia/',
   },
 ];
 
@@ -196,8 +200,20 @@ export default function EquipoPage() {
                       </div>
                     </div>
 
+                    {/* Sobre mí */}
+                    <div className="mb-4 pt-5 border-t border-neutral-200 dark:border-neutral-800">
+                      <Link
+                        href={`/equipo/${member.slug}`}
+                        className="flex items-center justify-center gap-2 w-full px-4 py-2.5 bg-petroleo hover:bg-petroleo-800 text-white rounded-lg transition-smooth hover:-translate-y-0.5 font-medium text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-petroleo/50"
+                        aria-label={`Conocer más sobre ${member.name}`}
+                      >
+                        <User className="w-4 h-4" />
+                        <span>Sobre mí</span>
+                      </Link>
+                    </div>
+
                     {/* Contacto */}
-                    <div className="flex items-center gap-3 pt-5 border-t border-neutral-200 dark:border-neutral-800">
+                    <div className="flex items-center gap-3">
                       <Link
                         href={`mailto:${member.email}`}
                         className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-petroleo/10 hover:bg-petroleo/20 dark:bg-petroleo/20 dark:hover:bg-petroleo/30 text-petroleo dark:text-petroleo-300 rounded-lg transition-smooth hover:-translate-y-0.5 font-medium text-sm group/btn focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-petroleo/50"
@@ -333,12 +349,33 @@ export default function EquipoPage() {
               Estamos siempre abiertas a colaboraciones y nuevas oportunidades.
               No dudes en contactarnos.
             </p>
-            <Link
-              href="/contacto"
-              className="bg-white/20 backdrop-blur-md hover:bg-white/30 text-white font-medium px-8 py-4 text-lg rounded-lg transition-all duration-200 border border-white/30 inline-flex items-center justify-center gap-2 min-h-touch focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2"
-            >
-              Contactar con el equipo
-            </Link>
+            <div className="flex flex-wrap items-center justify-center gap-4">
+              <Link
+                href="mailto:viorateamhackbarna@gmail.com"
+                className="bg-white/20 backdrop-blur-md hover:bg-white/30 text-white font-medium px-6 py-3.5 text-base rounded-lg transition-all duration-200 border border-white/30 inline-flex items-center justify-center gap-2 min-h-touch focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
+              >
+                <Mail className="w-4 h-4" />
+                Email
+              </Link>
+              <Link
+                href="https://github.com/BusConnectTeam"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-white/20 backdrop-blur-md hover:bg-white/30 text-white font-medium px-6 py-3.5 text-base rounded-lg transition-all duration-200 border border-white/30 inline-flex items-center justify-center gap-2 min-h-touch focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
+              >
+                <Code className="w-4 h-4" />
+                GitHub
+              </Link>
+              <Link
+                href="https://busconnect-frontend-ja4x.onrender.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-white/20 backdrop-blur-md hover:bg-white/30 text-white font-medium px-6 py-3.5 text-base rounded-lg transition-all duration-200 border border-white/30 inline-flex items-center justify-center gap-2 min-h-touch focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
+              >
+                <Globe className="w-4 h-4" />
+                Web
+              </Link>
+            </div>
           </motion.div>
         </div>
       </section>

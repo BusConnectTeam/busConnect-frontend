@@ -10,7 +10,7 @@ const INITIAL_MESSAGE: ChatMessage = {
   id: 'welcome',
   role: 'assistant',
   content:
-    '¡Hola! 👋 Soy tu asistente de BusConnect. Puedo ayudarte a calcular rutas, buscar municipios y más. Escribe **"ayuda"** para ver todas las opciones.',
+    '¡Hola! 👋 Soy tu asistente de BusConnect. Puedo ayudarte a calcular rutas, buscar municipios, conocer al equipo y más. Escribe **"ayuda"** para ver todas las opciones.',
   timestamp: new Date(),
 };
 
@@ -47,7 +47,7 @@ export default function AIChat() {
           return [
             {
               ...INITIAL_MESSAGE,
-              content: `¡Hola ${currentUser.firstName}! 👋 Soy tu asistente de BusConnect. Puedo ayudarte a calcular rutas, buscar municipios y más. Escribe **"ayuda"** para ver todas las opciones.`,
+              content: `¡Hola ${currentUser.firstName}! 👋 Soy tu asistente de BusConnect. Puedo ayudarte a calcular rutas, buscar municipios, conocer al equipo y más. Escribe **"ayuda"** para ver todas las opciones.`,
             },
           ];
         }
@@ -206,6 +206,13 @@ export default function AIChat() {
                   className="text-xs px-2 py-1 bg-neutral-100 dark:bg-neutral-700 text-neutral-600 dark:text-neutral-300 rounded-full hover:bg-neutral-200 dark:hover:bg-neutral-600 transition-colors"
                 >
                   Ver municipios
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setMessage('¿Quiénes crearon BusConnect?')}
+                  className="text-xs px-2 py-1 bg-neutral-100 dark:bg-neutral-700 text-neutral-600 dark:text-neutral-300 rounded-full hover:bg-neutral-200 dark:hover:bg-neutral-600 transition-colors"
+                >
+                  Equipo
                 </button>
                 {currentUser && (
                   <button

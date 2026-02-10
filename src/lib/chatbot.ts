@@ -66,6 +66,14 @@ const HELP_PATTERNS = [
   /(?:ayuda|help|qu[eé]\s+puedes?\s+hacer|c[oó]mo\s+funciona|comandos?|opciones?)/i,
 ];
 
+const TEAM_PATTERNS = [
+  /(?:equipo|qui[eé]n(?:es)?.*(?:sois|son|est[aá]|trabaj|cre[oóa]|hizo|hicieron|desarroll|hac[eé]|hay\s+detr[aá]s)|fundador|creador)/i,
+  /(?:irina|gabriela|gaby|ainoha)/i,
+  /(?:sobre\s+(?:el\s+)?equipo|conocer.*equipo|integrantes?|miembros?)/i,
+  /(?:cre(?:aron|ó|ado|ar).*(?:busconnect|proyecto|app|p[aá]gina|web))/i,
+  /(?:(?:busconnect|proyecto|app|p[aá]gina|web).*(?:cre(?:aron|ó|ado|ar)|hicieron|desarrollaron|hizo))/i,
+];
+
 function cleanMunicipalityName(name: string): string {
   return name
     .trim()
@@ -99,7 +107,7 @@ export async function processMessage(
     return {
       id,
       role: 'assistant',
-      content: `${greeting} Soy tu asistente de BusConnect. Puedo ayudarte con:\n\n• **Calcular rutas**: "¿Cuánto tarda de Barcelona a Girona?"\n• **Buscar municipios**: "Municipios de Tarragona"\n• **Tu perfil**: "¿Quién soy?"\n${currentUser?.role === 'ADMIN' ? '• **Estadísticas**: "¿Cómo va el caché?"' : ''}\n\n¿En qué puedo ayudarte?`,
+      content: `${greeting} Soy tu asistente de BusConnect. Puedo ayudarte con:\n\n• **Calcular rutas**: "¿Cuánto tarda de Barcelona a Girona?"\n• **Buscar municipios**: "Municipios de Tarragona"\n• **Nuestro equipo**: "¿Quién creó BusConnect?" o "Háblame de Irina"\n• **Tu perfil**: "¿Quién soy?"\n${currentUser?.role === 'ADMIN' ? '• **Estadísticas**: "¿Cómo va el caché?"' : ''}\n\n¿En qué puedo ayudarte?`,
       timestamp,
     };
   }
@@ -109,7 +117,47 @@ export async function processMessage(
     return {
       id,
       role: 'assistant',
-      content: `Puedo ayudarte con lo siguiente:\n\n🚌 **Rutas**\n• "¿Cuánto tarda de Barcelona a Girona?"\n• "Distancia entre Tarragona y Lleida"\n• "De Sabadell a Terrassa"\n\n🏘️ **Municipios**\n• "Municipios de Barcelona"\n• "Pueblos de la provincia de Girona"\n\n👤 **Tu perfil**\n• "¿Quién soy?"\n• "Mi información"\n\n${currentUser?.role === 'ADMIN' ? '📊 **Estadísticas** (Admin)\n• "Estadísticas del caché"\n• "¿Cuántas búsquedas quedan?"' : ''}`,
+      content: `Puedo ayudarte con lo siguiente:\n\n🚌 **Rutas**\n• "¿Cuánto tarda de Barcelona a Girona?"\n• "Distancia entre Tarragona y Lleida"\n• "De Sabadell a Terrassa"\n\n🏘️ **Municipios**\n• "Municipios de Barcelona"\n• "Pueblos de la provincia de Girona"\n\n👩‍💻 **Nuestro equipo**\n• "¿Quiénes crearon BusConnect?"\n• "Háblame de Gabriela"\n• "¿Quién es Irina?"\n\n👤 **Tu perfil**\n• "¿Quién soy?"\n• "Mi información"\n\n${currentUser?.role === 'ADMIN' ? '📊 **Estadísticas** (Admin)\n• "Estadísticas del caché"\n• "¿Cuántas búsquedas quedan?"' : ''}`,
+      timestamp,
+    };
+  }
+
+  // Equipo
+  if (TEAM_PATTERNS.some(p => p.test(message))) {
+    const mentionsIrina = /irina/i.test(message);
+    const mentionsGabriela = /gabriela|gaby/i.test(message);
+    const mentionsAinoha = /ainoha/i.test(message);
+    if (mentionsIrina && !mentionsGabriela && !mentionsAinoha) {
+      return {
+        id,
+        role: 'assistant',
+        content: `**👩‍💻 Irina** — Full Stack Developer & Co-fundadora\n\nResolutiva y con visión global del producto. Se mueve entre frontend y backend, integrando IA y automatizaciones cuando aportan eficiencia real. También se ocupa de deploys, DevOps y mantenimiento.\n\n> *"El valor de un producto no está solo en lo que hace hoy, sino en lo bien preparado que está para mañana."*\n\n🔗 [Ver perfil completo](/equipo/irina) · [LinkedIn](https://www.linkedin.com/in/irina-ichim-desarrolladora/) · [GitHub](https://github.com/Irina-Ichim)`,
+        timestamp,
+      };
+    }
+
+    if (mentionsGabriela && !mentionsIrina && !mentionsAinoha) {
+      return {
+        id,
+        role: 'assistant',
+        content: `**👩‍💻 Gabriela** — Backend Developer & Co-fundadora\n\nPerseverante y curiosa. Se siente cómoda con el ecosistema Spring (Boot, WebFlux). Prefiere un código bien probado y estructurado a uno brillante pero frágil.\n\n> *"El código limpio es el reflejo de un pensamiento claro."*\n\n🔗 [Ver perfil completo](/equipo/gabriela) · [LinkedIn](https://www.linkedin.com/in/gabriela-bustamante-/) · [GitHub](https://github.com/GabyB73)`,
+        timestamp,
+      };
+    }
+
+    if (mentionsAinoha && !mentionsIrina && !mentionsGabriela) {
+      return {
+        id,
+        role: 'assistant',
+        content: `**👩‍💻 Ainoha** — Backend Developer & Co-fundadora\n\nDedicada y especializada en desarrollo backend con Java y Spring Boot. Garantiza la fiabilidad y rendimiento de los sistemas.\n\n> *"La excelencia técnica es un viaje, no un destino."*\n\n🔗 [Ver perfil completo](/equipo/ainoha) · [LinkedIn](https://www.linkedin.com/in/ainoha-barcia/)`,
+        timestamp,
+      };
+    }
+
+    return {
+      id,
+      role: 'assistant',
+      content: `**👩‍💻 Nuestro equipo**\n\nBusConnect está creado por tres profesionales apasionadas por la tecnología:\n\n1. **Irina** — Full Stack Developer & Co-fundadora\n   Resolutiva, visión global, frontend + backend + DevOps\n\n2. **Gabriela** — Backend Developer & Co-fundadora\n   Perseverante, ecosistema Spring, código bien estructurado\n\n3. **Ainoha** — Backend Developer & Co-fundadora\n   Dedicada, Java & Spring Boot, fiabilidad y rendimiento\n\n🔗 [Conoce al equipo completo](/equipo)\n\nPregúntame por cualquiera de ellas por nombre para más detalles.`,
       timestamp,
     };
   }
@@ -350,7 +398,7 @@ export async function processMessage(
   return {
     id,
     role: 'assistant',
-    content: `No estoy seguro de cómo ayudarte con eso. Prueba a preguntarme:\n\n• "¿Cuánto tarda de Barcelona a Girona?"\n• "Municipios de Tarragona"\n• "¿Quién soy?"\n\nO escribe **"ayuda"** para ver todas las opciones.`,
+    content: `No estoy seguro de cómo ayudarte con eso. Prueba a preguntarme:\n\n• "¿Cuánto tarda de Barcelona a Girona?"\n• "Municipios de Tarragona"\n• "¿Quiénes crearon BusConnect?"\n• "¿Quién soy?"\n\nO escribe **"ayuda"** para ver todas las opciones.`,
     timestamp,
   };
 }

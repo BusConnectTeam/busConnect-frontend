@@ -2,7 +2,7 @@
 
 import { useAuth } from '@/contexts/AuthContext';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Bus, Globe, LogIn, LogOut, Menu, UserPlus, X } from 'lucide-react';
+import { Bus, Globe, LogIn, LogOut, Menu, X } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';
@@ -173,34 +173,19 @@ export default function Navbar() {
             {isAuthenticated ? (
               <UserMenu />
             ) : (
-              <>
-                <Link
-                  href="/login"
-                  className="flex items-center gap-2 text-white/90 hover:text-white
-                             transition-colors duration-200 px-3 py-2 min-h-touch
-                             focus-visible:outline-none focus-visible:ring-2
-                             focus-visible:ring-white/50 focus-visible:ring-offset-2
-                             focus-visible:ring-offset-petroleo rounded-lg"
-                >
-                  <LogIn className="w-5 h-5" aria-hidden="true" />
-                  <span className="hidden lg:inline">Entrar</span>
-                </Link>
-
-                <Link
-                  href="/registro"
-                  className="bg-white/20 backdrop-blur-md hover:bg-white/30
-                             text-white font-medium
-                             px-6 py-2.5 rounded-lg transition-all duration-200
-                             border border-white/30
-                             min-h-touch flex items-center gap-2
-                             focus-visible:outline-none focus-visible:ring-2
-                             focus-visible:ring-white/50 focus-visible:ring-offset-2
-                             focus-visible:ring-offset-petroleo"
-                >
-                  <UserPlus className="w-4 h-4" aria-hidden="true" />
-                  Crear cuenta
-                </Link>
-              </>
+              <Link
+                href="/login"
+                className="bg-white/10 backdrop-blur-md border border-white/30
+                           hover:bg-white/20 text-white px-4 py-2 rounded-lg
+                           text-sm font-medium transition-all duration-200
+                           min-h-touch flex items-center gap-1.5
+                           focus-visible:outline-none focus-visible:ring-2
+                           focus-visible:ring-white/50 focus-visible:ring-offset-2
+                           focus-visible:ring-offset-petroleo"
+              >
+                <LogIn className="w-4 h-4" aria-hidden="true" />
+                Acceder
+              </Link>
             )}
           </div>
 
@@ -300,36 +285,21 @@ export default function Navbar() {
                         </button>
                       </>
                     ) : (
-                      <>
-                        <Link
-                          href="/login"
-                          onClick={closeMobileMenu}
-                          className="w-full text-center py-3 px-4
-                                     border border-petroleo text-petroleo dark:text-white
-                                     dark:border-white/20 rounded-lg font-medium
-                                     hover:bg-petroleo/5 dark:hover:bg-white/5
-                                     transition-colors min-h-touch flex items-center justify-center
-                                     focus-visible:outline-none focus-visible:ring-2
-                                     focus-visible:ring-petroleo/50"
-                        >
-                          Entrar
-                        </Link>
-                        <Link
-                          href="/registro"
-                          onClick={closeMobileMenu}
-                          className="w-full text-center py-3 px-4
-                                     bg-petroleo/10 hover:bg-petroleo/20 text-petroleo
-                                     dark:bg-white/10 dark:hover:bg-white/20 dark:text-white
-                                     border border-petroleo/20 dark:border-white/20
-                                     rounded-lg font-medium transition-all
-                                     backdrop-blur-sm
-                                     min-h-touch flex items-center justify-center
-                                     focus-visible:outline-none focus-visible:ring-2
-                                     focus-visible:ring-petroleo/50"
-                        >
-                          Crear cuenta
-                        </Link>
-                      </>
+                      <Link
+                        href="/login"
+                        onClick={closeMobileMenu}
+                        className="w-full text-center py-3 px-4
+                                   bg-petroleo/30 backdrop-blur-md border border-petroleo/20
+                                   dark:bg-white/10 dark:border-white/20
+                                   text-petroleo dark:text-white rounded-lg font-medium
+                                   hover:bg-petroleo/40 dark:hover:bg-white/20 transition-all
+                                   min-h-touch flex items-center justify-center gap-2
+                                   focus-visible:outline-none focus-visible:ring-2
+                                   focus-visible:ring-petroleo/50 dark:focus-visible:ring-white/50"
+                      >
+                        <LogIn className="w-4 h-4" />
+                        Acceder
+                      </Link>
                     )}
                   </div>
                 </div>

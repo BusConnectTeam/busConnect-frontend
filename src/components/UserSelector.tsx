@@ -119,10 +119,10 @@ export default function UserSelector() {
             {/* Header */}
             <div className="px-4 py-3 bg-neutral-50 dark:bg-neutral-900 border-b border-neutral-200 dark:border-neutral-700">
               <p className="text-sm font-medium text-neutral-900 dark:text-white">
-                Entrar como usuario
+                Iniciar sesión
               </p>
               <p className="text-xs text-neutral-500 dark:text-neutral-400">
-                Selecciona un usuario para simular
+                Selecciona tu cuenta
               </p>
             </div>
 
