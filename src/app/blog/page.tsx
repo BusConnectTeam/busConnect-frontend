@@ -147,13 +147,21 @@ export default function BlogPage() {
                       {/* Cover Image */}
                       <div className="relative h-48 bg-gradient-to-br from-petroleo/10 via-transparent to-coral/10 dark:from-petroleo/20 dark:to-coral/20 overflow-hidden">
                         {post.coverImage ? (
-                          <Image
-                            src={post.coverImage}
-                            alt={post.title}
-                            fill
-                            className="object-cover group-hover:scale-105 transition-transform duration-500"
-                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                          />
+                          post.coverImage.endsWith('.svg') ? (
+                            <img
+                              src={post.coverImage}
+                              alt={post.title}
+                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                            />
+                          ) : (
+                            <Image
+                              src={post.coverImage}
+                              alt={post.title}
+                              fill
+                              className="object-cover group-hover:scale-105 transition-transform duration-500"
+                              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                            />
+                          )
                         ) : (
                           <div className="flex items-center justify-center h-full">
                             <BookOpen className="w-12 h-12 text-petroleo/30" />

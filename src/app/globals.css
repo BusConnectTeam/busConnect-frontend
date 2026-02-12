@@ -691,4 +691,37 @@
     background-clip: text;
     color: transparent;
   }
+
+  /* Blog - Bloques de código */
+  .blog-code-block {
+    @apply rounded-xl p-5 text-sm leading-relaxed overflow-x-auto;
+    @apply bg-neutral-900 text-neutral-100;
+    @apply border border-neutral-700/50;
+    @apply shadow-lg;
+    font-family: 'Fira Code', 'JetBrains Mono', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    tab-size: 2;
+  }
+
+  .blog-code-block code {
+    @apply text-sm;
+    font-family: inherit;
+    color: #e2e8f0;
+  }
+
+  /* Scrollbar estilizado para bloques de código */
+  .blog-code-block::-webkit-scrollbar {
+    height: 6px;
+  }
+
+  .blog-code-block::-webkit-scrollbar-track {
+    @apply bg-neutral-800 rounded-full;
+  }
+
+  .blog-code-block::-webkit-scrollbar-thumb {
+    @apply bg-neutral-600 rounded-full;
+  }
+
+  .blog-code-block::-webkit-scrollbar-thumb:hover {
+    @apply bg-neutral-500;
+  }
 }

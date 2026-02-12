@@ -77,18 +77,37 @@ export default function BlogPostPage() {
             {/* Meta */}
             <div className="flex flex-wrap items-center gap-4">
               <div className="flex items-center gap-3">
-                <div className="relative w-10 h-10 rounded-full overflow-hidden border-2 border-white/30">
-                  <Image
-                    src={post.author.image}
-                    alt={post.author.name}
-                    fill
-                    className="object-cover"
-                    sizes="40px"
-                  />
+                <div className="flex items-center -space-x-2">
+                  <div className="relative w-10 h-10 rounded-full overflow-hidden border-2 border-white/30 z-10">
+                    <Image
+                      src={post.author.image}
+                      alt={post.author.name}
+                      fill
+                      className="object-cover"
+                      sizes="40px"
+                    />
+                  </div>
+                  {post.coAuthor && (
+                    <div className="relative w-10 h-10 rounded-full overflow-hidden border-2 border-white/30">
+                      <Image
+                        src={post.coAuthor.image}
+                        alt={post.coAuthor.name}
+                        fill
+                        className="object-cover"
+                        sizes="40px"
+                      />
+                    </div>
+                  )}
                 </div>
                 <div>
-                  <p className="text-white font-medium text-sm">{post.author.name}</p>
-                  <p className="text-white/70 text-xs">{post.author.role}</p>
+                  <p className="text-white font-medium text-sm">
+                    {post.author.name}{post.coAuthor ? ` & ${post.coAuthor.name}` : ''}
+                  </p>
+                  <p className="text-white/70 text-xs">
+                    {post.coAuthor
+                      ? `${post.author.role} & ${post.coAuthor.role}`
+                      : post.author.role}
+                  </p>
                 </div>
               </div>
               <div className="flex items-center gap-4 text-white/70 text-sm">
@@ -115,14 +134,22 @@ export default function BlogPostPage() {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="relative h-64 md:h-96 rounded-2xl overflow-hidden shadow-2xl bg-gradient-to-br from-petroleo/10 to-coral/10"
           >
-            <Image
-              src={post.coverImage}
-              alt={post.title}
-              fill
-              className="object-cover"
-              sizes="(max-width: 768px) 100vw, 896px"
-              priority
-            />
+            {post.coverImage.endsWith('.svg') ? (
+              <img
+                src={post.coverImage}
+                alt={post.title}
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <Image
+                src={post.coverImage}
+                alt={post.title}
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 896px"
+                priority
+              />
+            )}
           </motion.div>
         </div>
       )}
@@ -152,6 +179,20 @@ export default function BlogPostPage() {
                         {paragraph}
                       </p>
                     ))}
+                    {section.code && (
+                      <pre className="blog-code-block">
+                        <code>{section.code}</code>
+                      </pre>
+                    )}
+                    {section.link && (
+                      <Link
+                        href={section.link.href}
+                        className="inline-flex items-center gap-2 btn-primary text-sm mt-2"
+                      >
+                        {section.link.text}
+                        <ArrowLeft className="w-4 h-4 rotate-180" />
+                      </Link>
+                    )}
                   </div>
                 </motion.div>
               ))}
@@ -216,13 +257,21 @@ export default function BlogPostPage() {
                   >
                     <div className="relative h-36 bg-gradient-to-br from-petroleo/10 to-coral/10 overflow-hidden">
                       {related.coverImage ? (
-                        <Image
-                          src={related.coverImage}
-                          alt={related.title}
-                          fill
-                          className="object-cover group-hover:scale-105 transition-transform duration-500"
-                          sizes="(max-width: 768px) 100vw, 33vw"
-                        />
+                        related.coverImage.endsWith('.svg') ? (
+                          <img
+                            src={related.coverImage}
+                            alt={related.title}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          />
+                        ) : (
+                          <Image
+                            src={related.coverImage}
+                            alt={related.title}
+                            fill
+                            className="object-cover group-hover:scale-105 transition-transform duration-500"
+                            sizes="(max-width: 768px) 100vw, 33vw"
+                          />
+                        )
                       ) : (
                         <div className="flex items-center justify-center h-full">
                           <BookOpen className="w-8 h-8 text-petroleo/30" />
